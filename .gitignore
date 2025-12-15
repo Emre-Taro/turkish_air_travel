@@ -1,0 +1,60 @@
+# ======================
+# Node.js
+# ======================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ======================
+# Playwright
+# ======================
+# テスト結果・レポート
+playwright-report/
+test-results/
+
+# トレース・動画・スクリーンショット（失敗時に生成）
+trace.zip
+**/*.trace
+**/*.zip
+
+# Playwrightの一時キャッシュ
+.playwright/
+
+# ======================
+# 環境変数
+# ======================
+.env
+.env.*
+!.env.example
+
+# ======================
+# TypeScript
+# ======================
+*.tsbuildinfo
+
+# ======================
+# OS / Editor
+# ======================
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+
+# ======================
+# Build output（フレームワーク別）
+# ======================
+# Next.js
+.next/
+out/
+
+# Vite / React / Vue
+dist/
+build/
+
+# ======================
+# Logs
+# ======================
+logs/
+*.log
