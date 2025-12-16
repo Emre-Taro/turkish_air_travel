@@ -6,7 +6,7 @@
 
 import { test, expect, Locator } from '@playwright/test';
 
-const URL = 'https://turkish.co.jp/special/';
+const LP_URL = 'https://turkish.co.jp/special/';
 
 type Case = {
   name: string;
@@ -131,7 +131,7 @@ async function waitForScrollToSettle(page: any, timeout = 5_000) {
 }
 
 test('LP右サイドバー：ボタン→スクロールを同一ページで順番に確認', async ({ page }) => {
-  await page.goto(URL, { waitUntil: 'networkidle' });
+  await page.goto(LP_URL, { waitUntil: 'networkidle' });
   await page.addStyleTag({ content: `html { scroll-behavior: auto !important; }` });
 
   await page.mouse.wheel(0, 900);
