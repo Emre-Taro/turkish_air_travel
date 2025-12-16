@@ -5,7 +5,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
   use: {
-    headless: true,
+    headless: false,
     viewport: { width: 1280, height: 720 },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
