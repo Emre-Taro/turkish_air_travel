@@ -131,13 +131,14 @@ async function waitForScrollToSettle(page: any, timeout = 5_000) {
 }
 
 test('LP右サイドバー：ボタン→スクロールを同一ページで順番に確認', async ({ page }) => {
-  await page.goto(URL, { waitUntil: 'domcontentloaded' });
+  await page.goto(URL, { waitUntil: 'networkidle' });
   await page.addStyleTag({ content: `html { scroll-behavior: auto !important; }` });
 
   await page.mouse.wheel(0, 900);
 
   for (const c of cases) {
-    const button = page.locator(`a[href="${c.href}"]:visible`).first();
+    const sidebar = page.locator('nav.h-nav');
+    const button = sidebar.locator(`a[href="${c.href}"]:visible`).first();
     await expect(button, `[${c.name}] サイドバーリンクが見つからない: href=${c.href}`).toBeVisible({ timeout: 15_000 });
     await button.click();
     await waitForScrollToSettle(page);
