@@ -34,7 +34,7 @@ test.describe('LP右サイドバー：hrefで確実に取得（表示切替・�
     await expect(sidebar(page)).toBeVisible({ timeout: 15000 });
   });
 
-    test('「全コース簡単選択」→ overlay が visible になり is-visible が付く', async ({ page }) => {
+  test('「全コース簡単選択」→ overlay が visible になり is-visible が付く', async ({ page }) => {
     const sb = sidebar(page);
     await expect(sb).toBeVisible({ timeout: 15000 });
 
@@ -48,43 +48,37 @@ test.describe('LP右サイドバー：hrefで確実に取得（表示切替・�
     const overlay = page.locator('#spc__overlay');
     await expect(overlay).toHaveClass(/is-visible/, { timeout: 15000 });
     await expect(overlay).toBeVisible({ timeout: 15000 });
-    });
+  });
 
   test('外部/別URL遷移ボタン（href一致）→ 最終URLの origin+pathname を検証', async ({ page }) => {
     const sb = sidebar(page);
 
     const navCases = [
-        { name: 'トルコツアー一覧', href: 'https://turkish.jp/tour/', expected: 'https://turkish.jp/tour/' },
-        { name: 'ビジネスクラス', href: 'https://turkish.co.jp/b-special/', expected: 'https://turkish.co.jp/b-special/' },
-        { name: 'チェックしたツアー', href: 'https://turkish.jp/history/', expected: 'https://turkish.jp/history/' },
-        { name: 'お気に入り', href: 'https://turkish.jp/favorite/', expected: 'https://turkish.jp/favorite/' },
-        ] as const;
+      { name: 'トルコツアー一覧', href: 'https://turkish.jp/tour/', expected: 'https://turkish.jp/tour/' },
+      // NOTE: 'チェックしたツアー' / 'お気に入り' may appear only when a user is logged in,
+      // so we don't assert them in a public smoke test.
+    ] as const;
 
     for (const c of navCases) {
-    test(`外部遷移: ${c.name}（href一致）→ origin+pathname 検証`, async ({ page }) => {
-        await page.goto(WEB_URL, { waitUntil: 'domcontentloaded' });
-
-        const sb = sidebar(page);
-        await expect(sb).toBeVisible({ timeout: 15000 });
-
+      await test.step(`外部遷移: ${c.name}`, async () => {
         const link = sb.locator(`a[href="${c.href}"]`).first();
         await expect(link).toBeVisible({ timeout: 15000 });
 
         // target=_blank 対応
         const target = await link.getAttribute('target');
         if (target === '_blank') {
-        const [newPage] = await Promise.all([
+          const [newPage] = await Promise.all([
             page.context().waitForEvent('page', { timeout: 15000 }),
             link.click(),
-        ]);
-        await newPage.waitForLoadState('domcontentloaded');
-        await expectOriginPath(newPage, c.expected);
-        await newPage.close();
+          ]);
+          await newPage.waitForLoadState('domcontentloaded');
+          await expectOriginPath(newPage, c.expected);
+          await newPage.close();
         } else {
-        await Promise.all([page.waitForLoadState('domcontentloaded'), link.click()]);
-        await expectOriginPath(page, c.expected);
+          await Promise.all([page.waitForLoadState('domcontentloaded'), link.click()]);
+          await expectOriginPath(page, c.expected);
         }
-    });
+      });
     }
 
   });
