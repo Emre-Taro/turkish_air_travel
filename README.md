@@ -8,8 +8,9 @@ Automatically check if there is an problem in LP and webpage of turkish air and 
 #### 1. `web-test/button-web-test/button-web-test.spec.ts`
 - **テスト1**: 出発地を選択すると、かんたん検索UI上の表示（◯◯発）が追従する
   - 検証内容: 羽田発、成田発、関西発、名古屋発、福岡発を選択し、UI表示が追従することを確認
-- **テスト2**: 結果ページの「▶ 詳しく見る」リンクが href 通りに遷移する（先頭3件）
-  - 検証内容: 羽田発を選択後、先頭3件の「詳しく見る」リンクが正しく遷移することを確認
+- **テスト2**: 羽田発の人気ランキングカードの「詳細はこちら」「パンフレットはこちら」が正しく遷移する
+  - 検証内容: 羽田発を選択後、人気ランキングに表示される8個のカードについて、各カードの「詳細はこちら」（divタグをクリックすると親のaタグのhrefに遷移）と「パンフレットはこちら」ボタンが正しいURLに遷移することを確認
+  - テスト対象: 8カード × 2ボタン = 16回の遷移テスト
 
 #### 2. `web-test/sidebar-web-test/scroll/sidebar-web-test.spec.ts`
 - **テスト3**: LP右サイドバー：ボタン→スクロールを同一ページで順番に確認
@@ -28,7 +29,7 @@ Automatically check if there is an problem in LP and webpage of turkish air and 
 #### 4. `lp_test/button-lp-test/button-lp-test.spec.ts`
 - **テスト6**: ランキングカード内の「パンフレット」「詳細」がhref通りに遷移する
   - 検証内容: ランキングカード内の「パンフレット」と「詳細」リンク（先頭3カード）が正しく遷移することを確認
-- **テスト7**: ランキングカード下の追加リンクが正しく遷移する（新規追加）
+- **テスト7**: ランキングカード下の追加リンクが正しく遷移する
   - 検証内容: 
     - 成田発ツアー一覧リンク
     - ビジネスクラス（成田発）リンク
@@ -53,14 +54,14 @@ Automatically check if there is an problem in LP and webpage of turkish air and 
     - よくあるご質問
     - トップへ
 
-#### 6. `lp_test/sidebar-lp-test/sidebar-lp-other-airport-test.spec.ts`（新規追加）
+#### 6. `lp_test/sidebar-lp-test/sidebar-lp-other-airport-test.spec.ts`
 - **テスト9**: 関西発、名古屋発、福岡発ボタンが正しいURLに遷移する
   - 検証内容: ランキングセクション下部の出発地ボタン（関空発、名古屋発、福岡発）が正しいURLに遷移することを確認
-- **テスト10**: 関西発ページのサイドバーが正常にスクロールする（新規追加）
+- **テスト10**: 関西発ページのサイドバーが正常にスクロールする
   - 検証内容: 関西発ページ（`https://turkish.co.jp/special-k/`）のサイドバーリンク（13項目）をクリックし、正しい位置にスクロールすることを確認
-- **テスト11**: 名古屋発ページのサイドバーが正常にスクロールする（新規追加）
+- **テスト11**: 名古屋発ページのサイドバーが正常にスクロールする
   - 検証内容: 名古屋発ページ（`https://turkish.co.jp/special-n/`）のサイドバーリンク（13項目）をクリックし、正しい位置にスクロールすることを確認
-- **テスト12**: 福岡発ページのサイドバーが正常にスクロールする（新規追加）
+- **テスト12**: 福岡発ページのサイドバーが正常にスクロールする
   - 検証内容: 福岡発ページ（`https://turkish.jp/special-f/`）のサイドバーリンク（9項目）をクリックし、正しい位置にスクロールすることを確認
     - 人気TOP3
     - お客様の口コミ満足度97%
@@ -74,13 +75,58 @@ Automatically check if there is an problem in LP and webpage of turkish air and 
 
 ---
 
+## テスト実行方法
+
+### すべてのテストを実行
+```bash
+npm test
+# または
+npm run test:all
+```
+
+### WEBテストのみ実行
+```bash
+npm test
+# または
+npx playwright test web-test
+```
+
+### LPテストのみ実行
+```bash
+npm run test:lp
+# または
+npx playwright test lp_test
+```
+
+### 特定のテストファイルを実行
+```bash
+npx playwright test web-test/button-web-test/button-web-test.spec.ts
+```
+
+### ブラウザを表示して実行（デバッグ用）
+```bash
+npm run test:headed
+# または
+npm run test:all:headed
+```
+
+### UIモードで実行（インタラクティブ）
+```bash
+npm run test:ui
+# または
+npm run test:all:ui
+```
+
+---
+
 ## まとめ
 
-- **以前**: 7テスト
-- **現在**: 12テスト（+5）
-  - **新規追加**:
-    1. ランキングカード下の追加リンクが正しく遷移する（テスト7）
-    2. 関西発、名古屋発、福岡発ボタンが正しいURLに遷移する（テスト9）
-    3. 関西発ページのサイドバーが正常にスクロールする（テスト10）
-    4. 名古屋発ページのサイドバーが正常にスクロールする（テスト11）
-    5. 福岡発ページのサイドバーが正常にスクロールする（テスト12）
+- **総テスト数**: 12テスト
+- **WEBテスト**: 5テスト
+- **LPテスト**: 7テスト
+- **主な検証内容**:
+  - 出発地選択UIの動作確認
+  - 人気ランキングカードのボタン遷移（詳細・パンフレット）
+  - サイドバーのアンカーリンクスクロール
+  - 外部URL遷移の確認
+  - 各出発地ページのサイドバー動作確認
