@@ -117,24 +117,248 @@ test.describe('WEB: 出発地(羽田/成田/関西…)選択 → 検索 → 各�
     }
   });
 
-  test('結果ページの「▶ 詳しく見る」リンクが href 通りに遷移する（先頭3件）', async ({ page, context }) => {
+  // 羽田発の人気ランキングカード情報を定義
+  // 各カードには「詳細はこちら」（カード全体がaタグ）と「パンフレットはこちら」（ボタンがaタグ）がある
+  type CardConfig = {
+    detail: {
+      cardClass: string; // カード全体のaタグのclass（例: "lp19__card"）
+      expectedHref: string; // 期待されるhref（例: "https://turkish.jp/tour/istanbul-cruise-9days-turkish/"）
+    };
+    pamphlet: {
+      buttonClass: string; // パンフレットボタンのclass（例: "lp19__list__btn-brown"）
+      expectedHref: string; // 期待されるhref（例: "https://turkish.jp/p_pamphlet/t9sah/"）
+    };
+  };
+
+  // 羽田発の8個のカードの設定を定義
+  // 必要に応じて、実際のサイトから取得したclassとhrefを設定してください
+  const hanedaCardConfigs: CardConfig[] = [
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/istanbul-cruise-9days-turkish/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/t9sah/',
+      },
+      
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/business_bt9sah/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/bt9sah/',
+      },
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/t1swsh/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/t1swsh/',
+      },
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/bt1swsh/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/bt1swsh/',
+      },
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/haneda-8days-turkish/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/t8sah/',
+      },
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/business_bt8sah/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/bt8sah/',
+      },
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/ana9ssh/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/ana9ssh/',
+      },
+    },
+    {
+      detail: {
+        cardClass: 'lp19__card',
+        expectedHref: 'https://turkish.jp/tour/anab9ssh/',
+      },
+      pamphlet: {
+        buttonClass: 'lp19__list__btn-brown',
+        expectedHref: 'https://turkish.jp/p_pamphlet/anab9ssh/',
+      },
+    },
+
+  ];
+
+  test('羽田発の人気ランキングカードの「詳細はこちら」「パンフレットはこちら」が正しく遷移する', async ({
+    page,
+    context,
+  }) => {
+    test.setTimeout(300_000); // 8カード×2ボタンで時間がかかるため
+
     await page.goto(WEB_URL, { waitUntil: 'domcontentloaded' });
 
     const sel = departureSelect(page);
     await expect(sel, '[出発地select] が見つからない').toBeVisible({ timeout: 15_000 });
     await sel.selectOption({ label: '羽田 発' });
 
-    // If the overlay is open, close it before clicking content links.
+    // オーバーレイを閉じる
     await dismissSpcOverlay(page);
 
-    const detailLinks = page.locator('a[href]:not([href^="#"])').filter({ hasText: /詳しく見る/ });
-    const count = await detailLinks.count();
-    expect(count, '「詳しく見る」リンクが見つからない').toBeGreaterThan(0);
+    // 人気ランキングセクションが表示されるまで待つ
+    await page.waitForTimeout(1000);
 
-    const max = Math.min(3, count);
-    for (let i = 0; i < max; i++) {
-      const link = detailLinks.nth(i);
-      await clickAndAssertFollowsHref(page, context, link, `詳しく見る #${i + 1}`, { returnBack: true });
+    // 各カードをテスト
+    for (let cardIndex = 0; cardIndex < hanedaCardConfigs.length; cardIndex++) {
+      const cardConfig = hanedaCardConfigs[cardIndex];
+      await test.step(`羽田発 / カード${cardIndex + 1}`, async () => {
+        // cardClassを使ってカード全体のaタグを取得
+        // その中に「詳細はこちら」のdivがあることを確認
+        let detailCard: Locator;
+        const detailCardExact = page.locator(`a.${cardConfig.detail.cardClass}`).nth(cardIndex);
+        const detailCardCount = await detailCardExact.count();
+        if (detailCardCount === 0) {
+          // カードが見つからない場合は、より柔軟なセレクタで探す
+          const allCards = page.locator(`a[class*="${cardConfig.detail.cardClass}"]`);
+          const count = await allCards.count();
+          if (count > cardIndex) {
+            detailCard = allCards.nth(cardIndex);
+          } else {
+            throw new Error(
+              `[羽田発 / カード${cardIndex + 1}] 詳細カードが見つかりません (class: ${cardConfig.detail.cardClass})`
+            );
+          }
+        } else {
+          detailCard = detailCardExact;
+        }
+
+        await detailCard.scrollIntoViewIfNeeded();
+
+        // カード内に「詳細はこちら」のdivがあることを確認
+        // 「詳細はこちら」のdivは通常 `lp19__list__btn-blue` というclassを持つ
+        // 複数マッチする可能性があるので、.first()で最初の要素を取得
+        const detailDiv = detailCard.locator('div').filter({ hasText: /詳細はこちら/ }).first();
+        const detailDivCount = await detailDiv.count();
+        if (detailDivCount === 0) {
+          throw new Error(
+            `[羽田発 / カード${cardIndex + 1}] カード内に「詳細はこちら」のdivが見つかりません`
+          );
+        }
+
+        // カード全体のaタグのhrefを取得
+        const actualDetailHref = await detailCard.getAttribute('href');
+        expect(actualDetailHref, `[羽田発 / カード${cardIndex + 1} / 詳細] hrefが取得できません`).toBeTruthy();
+
+        // hrefが期待値と一致するか確認
+        const actualDetailUrl = new URL(actualDetailHref!, page.url()).toString();
+        const expectedDetailUrl = new URL(cardConfig.detail.expectedHref, page.url()).toString();
+        expect(originPath(actualDetailUrl), `[羽田発 / カード${cardIndex + 1} / 詳細] hrefが期待値と一致しません`).toBe(
+          originPath(expectedDetailUrl)
+        );
+
+        // 「詳細はこちら」のdivをクリック（親のaタグのhrefに遷移する）
+        // カード全体のaタグのhrefを使って遷移を確認
+        const expectedOriginPath = originPath(actualDetailUrl);
+
+        const popupP = context.waitForEvent('page', { timeout: 5_000 }).catch(() => null);
+        const sameTabP = page
+          .waitForURL((u) => originPath(u) === expectedOriginPath, { timeout: 15_000 })
+          .then(() => true)
+          .catch(() => false);
+
+        // Close overlays that may intercept pointer events, then click.
+        await dismissSpcOverlay(page);
+        try {
+          await detailDiv.click({ noWaitAfter: true });
+        } catch {
+          await dismissSpcOverlay(page);
+          await detailDiv.click({ noWaitAfter: true, force: true });
+        }
+
+        const popup = await popupP;
+        const sameTabMoved = await sameTabP;
+
+        if (popup) {
+          await popup.waitForLoadState('domcontentloaded');
+          await expect.poll(
+            async () => originPath(popup.url()),
+            { timeout: 15_000 }
+          ).toBe(expectedOriginPath);
+          await popup.close();
+        } else if (sameTabMoved) {
+          await expect.poll(async () => originPath(page.url()), { timeout: 15_000 }).toBe(expectedOriginPath);
+          await expect(page, `[羽田発 / カード${cardIndex + 1} / 詳細] looks like a 404 page`).not.toHaveTitle(/404|not found/i);
+          await page.goBack({ waitUntil: 'domcontentloaded' }).catch(() => {});
+        } else {
+          throw new Error(`[羽田発 / カード${cardIndex + 1} / 詳細] clicked but did not navigate (expected=${expectedOriginPath})`);
+        }
+
+        // パンフレットボタンを取得
+        let pamphletButton: Locator;
+        const pamphletButtonExact = page
+          .locator(`a.${cardConfig.pamphlet.buttonClass}`)
+          .nth(cardIndex);
+        const pamphletCount = await pamphletButtonExact.count();
+        if (pamphletCount === 0) {
+          // ボタンが見つからない場合は、より柔軟なセレクタで探す
+          const allPamphlets = page.locator(`a[class*="${cardConfig.pamphlet.buttonClass}"]`);
+          const count = await allPamphlets.count();
+          if (count > cardIndex) {
+            pamphletButton = allPamphlets.nth(cardIndex);
+          } else {
+            throw new Error(
+              `[羽田発 / カード${cardIndex + 1}] パンフレットボタンが見つかりません (class: ${cardConfig.pamphlet.buttonClass})`
+            );
+          }
+        } else {
+          pamphletButton = pamphletButtonExact;
+        }
+
+        await pamphletButton.scrollIntoViewIfNeeded();
+        // hrefが期待値と一致するか確認
+        const actualPamphletHref = await pamphletButton.getAttribute('href');
+        if (actualPamphletHref) {
+          const actualPamphletUrl = new URL(actualPamphletHref, page.url()).toString();
+          const expectedPamphletUrl = new URL(cardConfig.pamphlet.expectedHref, page.url()).toString();
+          expect(originPath(actualPamphletUrl), `[羽田発 / カード${cardIndex + 1} / パンフレット] hrefが期待値と一致しません`).toBe(
+            originPath(expectedPamphletUrl)
+          );
+        }
+        await clickAndAssertFollowsHref(
+          page,
+          context,
+          pamphletButton,
+          `羽田発 / カード${cardIndex + 1} / パンフレット`,
+          { returnBack: true }
+        );
+      });
     }
   });
 });
