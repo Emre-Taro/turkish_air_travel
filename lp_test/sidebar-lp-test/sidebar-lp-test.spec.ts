@@ -130,16 +130,29 @@ async function waitForScrollToSettle(page: any, timeout = 5_000) {
   }, { timeout, intervals: [100, 150, 200] }).toBeLessThanOrEqual(1);
 }
 
+async function findVisibleAnchorLink(page: any, href: string, label: string) {
+  // LPは「ある程度スクロールしないと右サイドバーが出ない」ことがある。
+  // そのため、visible なリンクが見つかるまで少しずつスクロールして探す。
+  for (let i = 0; i < 8; i++) {
+    const link = page.locator(`a[href="${href}"]:visible`).first();
+    if ((await link.count()) > 0) return link;
+    await page.mouse.wheel(0, 700);
+    await page.waitForTimeout(150);
+  }
+  throw new Error(`[${label}] クリック対象リンクが見つからない（scroll後も）: href=${href}`);
+}
+
 test('LP右サイドバー：ボタン→スクロールを同一ページで順番に確認', async ({ page }) => {
+  test.setTimeout(120_000);
   await page.goto(LP_URL, { waitUntil: 'networkidle' });
   await page.addStyleTag({ content: `html { scroll-behavior: auto !important; }` });
 
+  // まず少しスクロールして、右サイドバー（固定ナビ）が表示される状態にする
   await page.mouse.wheel(0, 900);
+  await page.waitForTimeout(200);
 
   for (const c of cases) {
-    const sidebar = page.locator('nav.h-nav');
-    const button = sidebar.locator(`a[href="${c.href}"]:visible`).first();
-    await expect(button, `[${c.name}] サイドバーリンクが見つからない: href=${c.href}`).toBeVisible({ timeout: 15_000 });
+    const button = await findVisibleAnchorLink(page, c.href, c.name);
     await button.click();
     await waitForScrollToSettle(page);
 

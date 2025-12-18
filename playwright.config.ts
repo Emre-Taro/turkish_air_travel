@@ -1,11 +1,17 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests',
+  // This repo keeps specs under `web-test/` and `lp_test/` (there is no `./tests` folder).
+  testDir: '.',
+  testMatch: ['**/*.spec.ts'],
+  testIgnore: ['**/node_modules/**', '**/test-results/**'],
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  // Be gentle to production websites and avoid flakiness from parallel runs.
+  workers: process.env.CI ? 2 : 1,
   use: {
-    headless: false,
+    // Headless is significantly more stable on Windows for CI-like runs.
+    // Use `npm run test:headed` when you want to watch the browser.
+    headless: true,
     viewport: { width: 1280, height: 720 },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
