@@ -1,0 +1,41 @@
+name: Weekly Validation of Pages
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions の cron は UTC
+    # 毎週 月曜 02:00 (JST) に回したい場合 → 日曜 17:00 (UTC)
+    - cron: "0 17 * * 0"
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npm run test:e2e
+
+      # 失敗してもレポートを残す（デバッグが楽）
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
