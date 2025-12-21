@@ -101,16 +101,66 @@ jobs:
             echo "" >> mail-body-client.txt
             echo "内容：" >> mail-body-client.txt
 
-            # test-failures.yaml があれば、最初の1件だけ要約して出す（無ければ代替文）
+            # test-failures.yaml があれば、失敗したテストを抽出（最大3件まで）
             if [ -f test-failures.yaml ] && [ -s test-failures.yaml ]; then
-              # id/name/page/error を雑に抜く（YAML厳密パースじゃなく簡易抽出）
-              NAME=$(grep -m1 '^\s*name:' test-failures.yaml | sed 's/^\s*name:\s*//; s/^"//; s/"$//' || echo "")
-              PAGE=$(grep -m1 '^\s*page:' test-failures.yaml | sed 's/^\s*page:\s*//; s/^"//; s/"$//' || echo "")
-              ERROR=$(grep -m1 '^\s*error:' test-failures.yaml | sed 's/^\s*error:\s*//; s/^"//; s/"$//' | head -c 200 || echo "")
-
-              [ -n "$NAME" ] && echo "- テスト: ${NAME}" >> mail-body-client.txt
-              [ -n "$PAGE" ] && echo "- 対象ページ: ${PAGE}" >> mail-body-client.txt
-              [ -n "$ERROR" ] && echo "- 原因: ${ERROR}" >> mail-body-client.txt
+              # Node.jsでYAMLを解析してメール本文を生成（確実性のため）
+              node -e "
+                const fs = require('fs');
+                const content = fs.readFileSync('test-failures.yaml', 'utf-8');
+                const lines = content.split('\n');
+                let currentTest = null;
+                let testCount = 0;
+                const maxTests = 3;
+                
+                for (const line of lines) {
+                  if (testCount >= maxTests) break;
+                  
+                  // 新しいテスト項目の開始
+                  if (line.match(/^\s*-\s+id:/)) {
+                    if (currentTest && currentTest.name) {
+                      console.log('- テスト: ' + currentTest.name);
+                      if (currentTest.page) console.log('- 対象ページ: ' + currentTest.page);
+                      console.log('');
+                      testCount++;
+                    }
+                    currentTest = { name: '', page: '' };
+                  }
+                  
+                  // name を抽出
+                  if (currentTest && line.match(/^\s+name:\s*\"/)) {
+                    const match = line.match(/name:\s*\"([^\"]*)\"/);
+                    if (match) {
+                      currentTest.name = match[1].replace(/\\\\\"/g, '\"');
+                    }
+                  }
+                  
+                  // page を抽出
+                  if (currentTest && line.match(/^\s+page:\s*\"/)) {
+                    const match = line.match(/page:\s*\"([^\"]*)\"/);
+                    if (match) {
+                      currentTest.page = match[1].replace(/\\\\\"/g, '\"');
+                    }
+                  }
+                }
+                
+                // 最後のテストを出力
+                if (currentTest && currentTest.name && testCount < maxTests) {
+                  console.log('- テスト: ' + currentTest.name);
+                  if (currentTest.page) console.log('- 対象ページ: ' + currentTest.page);
+                  console.log('');
+                  testCount++;
+                }
+                
+                // 追加の失敗テストがある場合
+                const totalMatch = content.match(/total_failed:\s*(\d+)/);
+                if (totalMatch) {
+                  const totalFailed = parseInt(totalMatch[1], 10);
+                  if (totalFailed > testCount) {
+                    console.log('※ 他に ' + (totalFailed - testCount) + ' 件のテストが失敗しています。');
+                    console.log('');
+                  }
+                }
+              " >> mail-body-client.txt
             else
               echo "- 詳細情報の取得に失敗しました（ログを確認中です）" >> mail-body-client.txt
             fi
@@ -203,7 +253,6 @@ jobs:
           body: ${{ steps.client_body.outputs.body }}
           attachments: |
             mail-attachments/*
-            test-failures.yaml
 
       # ★ 失敗時にジョブをFailにする
       - name: Fail job if tests failed

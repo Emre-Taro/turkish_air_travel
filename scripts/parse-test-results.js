@@ -107,46 +107,71 @@ function escapeYamlString(str) {
     .replace(/\r/g, '');
 }
 
-function findTestInfo(filePath, testTitle) {
+function findTestInfo(filePath, testTitle, specTitle) {
   // ファイルパスを正規化（相対パスで比較）
   const normalizedPath = filePath.replace(/\\/g, '/').replace(/^\.\//, '');
   const fileName = path.basename(normalizedPath);
   
-  // test.describeブロックのタイトルを除去（例: "WEB: 出発地..." -> "出発地..."）
-  // テストタイトルから " > " や ":" で区切られた部分を抽出
-  let cleanTitle = testTitle;
-  if (testTitle.includes(' > ')) {
-    // PlaywrightのJSONレポートは "describe > test" 形式で出力されることがある
-    const parts = testTitle.split(' > ');
-    cleanTitle = parts[parts.length - 1]; // 最後の部分が実際のテスト名
+  // test.describeブロックのタイトルを除去
+  // PlaywrightのJSONレポートは "describe > test" や "describe › test" 形式で出力されることがある
+  let cleanTitle = testTitle || '';
+  
+  // 区切り文字 > と › の両方を処理
+  if (cleanTitle.includes(' > ') || cleanTitle.includes(' › ')) {
+    const parts = cleanTitle.split(/\s*[>›]\s*/);
+    cleanTitle = parts[parts.length - 1] || ''; // 最後の部分が実際のテスト名
   }
+  
+  // testTitleが空の場合は部分一致をしない（誤爆を防ぐ）
+  const hasValidTitle = cleanTitle && cleanTitle.length > 0;
   
   // 1. 完全一致を試す（ファイルパスとテストタイトルの完全一致）
-  if (TEST_MAPPING[normalizedPath] && TEST_MAPPING[normalizedPath][testTitle]) {
-    return TEST_MAPPING[normalizedPath][testTitle];
-  }
-  if (TEST_MAPPING[normalizedPath] && TEST_MAPPING[normalizedPath][cleanTitle]) {
-    return TEST_MAPPING[normalizedPath][cleanTitle];
+  if (TEST_MAPPING[normalizedPath]) {
+    if (TEST_MAPPING[normalizedPath][testTitle]) {
+      return TEST_MAPPING[normalizedPath][testTitle];
+    }
+    if (cleanTitle && TEST_MAPPING[normalizedPath][cleanTitle]) {
+      return TEST_MAPPING[normalizedPath][cleanTitle];
+    }
+    // spec.titleとの組み合わせも試す
+    if (specTitle && TEST_MAPPING[normalizedPath][specTitle]) {
+      return TEST_MAPPING[normalizedPath][specTitle];
+    }
   }
   
-  // 2. ファイル名でマッチして、テストタイトルで部分一致
+  // 2. ファイル名でマッチして、テストタイトルで完全一致を試す
   for (const [key, tests] of Object.entries(TEST_MAPPING)) {
     const keyFileName = path.basename(key);
     if (keyFileName === fileName || key.endsWith(fileName) || normalizedPath.endsWith(key)) {
       // 完全一致を試す
-      if (tests[testTitle]) {
+      if (testTitle && tests[testTitle]) {
         return tests[testTitle];
       }
-      if (tests[cleanTitle]) {
+      if (cleanTitle && tests[cleanTitle]) {
         return tests[cleanTitle];
       }
+      // spec.titleとの組み合わせも試す
+      if (specTitle && tests[specTitle]) {
+        return tests[specTitle];
+      }
       
-      // 部分一致を試す
-      for (const [title, info] of Object.entries(tests)) {
-        // テストタイトルに期待されるタイトルが含まれているか、またはその逆
-        if (testTitle.includes(title) || title.includes(testTitle) || 
-            cleanTitle.includes(title) || title.includes(cleanTitle)) {
-          return info;
+      // 部分一致を試す（testTitleが空でない場合のみ）
+      if (hasValidTitle) {
+        for (const [title, info] of Object.entries(tests)) {
+          // より厳密な部分一致：両方が空でない、かつ適度に長い場合のみ
+          if (title && title.length > 3) {
+            // testTitleまたはcleanTitleがtitleを含む場合のみ（逆はしない）
+            if (testTitle && testTitle.length > 3 && testTitle.includes(title)) {
+              return info;
+            }
+            if (cleanTitle && cleanTitle.length > 3 && cleanTitle.includes(title)) {
+              return info;
+            }
+            // specTitleとの組み合わせも試す
+            if (specTitle && specTitle.length > 3 && specTitle.includes(title)) {
+              return info;
+            }
+          }
         }
       }
     }
@@ -180,13 +205,14 @@ function parseTestResults() {
       
       // スペックを処理
       for (const spec of suite.specs || []) {
+        const specTitle = spec.title || '';
         for (const test of spec.tests || []) {
           if (test.results && test.results.some(r => r.status === 'failed' || r.status === 'timedOut')) {
             const filePath = spec.file || '';
             const testTitle = test.title || '';
             
-            // テストマッピングから情報を取得
-            const testInfo = findTestInfo(filePath, testTitle);
+            // テストマッピングから情報を取得（spec.titleも併用）
+            const testInfo = findTestInfo(filePath, testTitle, specTitle);
 
             // 失敗した結果を取得（最新の失敗結果を使用）
             const failedResult = test.results.find(r => r.status === 'failed' || r.status === 'timedOut');
