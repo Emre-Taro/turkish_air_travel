@@ -29,10 +29,13 @@ jobs:
       # ★ ここは continue-on-error を使わず、終了コードを受け取る
       #   ただし後続を必ず走らせたいので、以降の step は if: always() にする
       - name: Run tests
-        id: run-tests
+        id: run_tests
         run: |
+          set +e
           # HTML + JSON + list を同時に出す（HTMLはplaywright-report/を作る）
           npx playwright test --reporter=html --reporter=json:test-results.json --reporter=list
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+          set -e
 
       # ★ 失敗しても必ず解析する
       - name: Parse test results
@@ -154,7 +157,7 @@ jobs:
 
       # ★ 成功時のメール本文を作成
       - name: Build success mail body
-        if: success()
+        if: ${{ steps.run_tests.outputs.exit_code == '0' }}
         run: |
           echo "ページ検証テスト結果" > mail-body-success.txt
           echo "" >> mail-body-success.txt
@@ -167,9 +170,18 @@ jobs:
           echo "実行URL（Artifactsあり）:" >> mail-body-success.txt
           echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> mail-body-success.txt
 
+      # ★ 成功時のメール本文を読み込んでoutputsに設定
+      - name: Read success mail body
+        if: ${{ steps.run_tests.outputs.exit_code == '0' }}
+        id: success-body
+        run: |
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          cat mail-body-success.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       # ★ 成功時にメールを送信
       - name: Send success email
-        if: success()
+        if: ${{ steps.run_tests.outputs.exit_code == '0' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
@@ -180,11 +192,20 @@ jobs:
           subject: "【自動検証システム】ページ検証テスト正常終了"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
-          body_file: mail-body-success.txt
+          body: ${{ steps.success-body.outputs.body }}
 
-      # ★ 失敗時だけ送る（ここが failure() で動く）
+      # ★ 失敗時のメール本文を読み込んでoutputsに設定
+      - name: Read failure mail body
+        if: ${{ steps.run_tests.outputs.exit_code != '0' }}
+        id: failure-body
+        run: |
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          cat mail-body.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # ★ 失敗時だけ送る（exit codeで判定）
       - name: Send failure email
-        if: failure()
+        if: ${{ steps.run_tests.outputs.exit_code != '0' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
@@ -195,5 +216,12 @@ jobs:
           subject: "【自動検証システム】ページに不具合がありました"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
-          body_file: mail-body.txt
-          attachments: mail-attachments/*
+          body: ${{ steps.failure-body.outputs.body }}
+          attachments: |
+            mail-attachments/*
+            test-failures.yaml
+
+      # ★ 失敗時にジョブをFailにする
+      - name: Fail job if tests failed
+        if: ${{ steps.run_tests.outputs.exit_code != '0' }}
+        run: exit 1
