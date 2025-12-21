@@ -26,8 +26,60 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      # ★ ここは continue-on-error を使わず、終了コードを受け取る
+      #   ただし後続を必ず走らせたいので、以降の step は if: always() にする
       - name: Run tests
-        run: npm run test:all
+        id: run-tests
+        run: |
+          # HTML + JSON + list を同時に出す（HTMLはplaywright-report/を作る）
+          npx playwright test --reporter=html --reporter=json:test-results.json --reporter=list
+
+      # ★ 失敗しても必ず解析する
+      - name: Parse test results
+        if: always()
+        run: |
+          if [ -f test-results.json ]; then
+            node scripts/parse-test-results.js test-results.json > test-failures.yaml 2>&1 || true
+          else
+            echo "failed_tests:" > test-failures.yaml
+            echo "  []" >> test-failures.yaml
+            echo "" >> test-failures.yaml
+            echo "total_failed: 0" >> test-failures.yaml
+            echo "total_tests: 12" >> test-failures.yaml
+          fi
+
+      # ★ メール本文ファイルを作る（失敗時だけ送る）
+      - name: Build mail body
+        if: always()
+        run: |
+          echo "ページ検証テスト結果" > mail-body.txt
+          echo "" >> mail-body.txt
+          echo "実行日時（JST）: ${{ github.run_started_at }}" >> mail-body.txt
+          echo "リポジトリ: ${{ github.repository }}" >> mail-body.txt
+          echo "ブランチ: ${{ github.ref_name }}" >> mail-body.txt
+          echo "" >> mail-body.txt
+          echo "実行URL（Artifactsあり）:" >> mail-body.txt
+          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> mail-body.txt
+          echo "" >> mail-body.txt
+
+          # run-tests が失敗したかどうかは、この step の if 条件では取れないので
+          # 後段の「Send failure email」を失敗時だけにして、本文は常に作っておく
+          echo "▼ 失敗したテストの詳細（YAML形式）" >> mail-body.txt
+          echo "" >> mail-body.txt
+          cat test-failures.yaml >> mail-body.txt
+          echo "" >> mail-body.txt
+          echo "▼ 補足" >> mail-body.txt
+          echo "- 動画・スクリーンショット: Artifacts の「test-results」" >> mail-body.txt
+          echo "- HTMLレポート: Artifacts の「playwright-report」" >> mail-body.txt
+          echo "- テスト結果YAML: Artifacts の「test-failures」" >> mail-body.txt
+          echo "" >> mail-body.txt
+          echo "各テスト項目には以下の情報が含まれています：" >> mail-body.txt
+          echo "- id: テストID（1-12）" >> mail-body.txt
+          echo "- name: テスト名" >> mail-body.txt
+          echo "- page: テスト対象のページURL" >> mail-body.txt
+          echo "- description: テストの説明" >> mail-body.txt
+          echo "- error: エラーメッセージ" >> mail-body.txt
+          echo "- location: エラーが発生したファイルと行番号" >> mail-body.txt
 
       - name: Upload Playwright report
         if: always()
@@ -45,29 +97,25 @@ jobs:
           path: test-results/
           retention-days: 14
 
+      - name: Upload test failures YAML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-failures
+          path: test-failures.yaml
+          retention-days: 14
+
+      # ★ 失敗時だけ送る（ここが failure() で動く）
       - name: Send failure email
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
+          secure: true
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-
           subject: "[自動監視] ページ検証テストが失敗しました"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
-
-          body: |
-            ページ検証テストが失敗しました。
-
-            実行日時（JST）: ${{ github.run_started_at }}
-            リポジトリ: ${{ github.repository }}
-            ブランチ: ${{ github.ref_name }}
-
-            ▼ 失敗内容
-            Playwright のテストが1件以上失敗しています。
-
-            ▼ 詳細（動画・スクリーンショット）
-            以下のURLから Artifacts（test-results / playwright-report）をダウンロードしてください。
-            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          body_file: mail-body.txt
