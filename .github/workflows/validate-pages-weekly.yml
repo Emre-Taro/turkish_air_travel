@@ -44,3 +44,30 @@ jobs:
           name: test-results
           path: test-results/
           retention-days: 14
+
+      - name: Send failure email
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+
+          subject: "[自動監視] ページ検証テストが失敗しました"
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_FROM }}
+
+          body: |
+            ページ検証テストが失敗しました。
+
+            実行日時（JST）: ${{ github.run_started_at }}
+            リポジトリ: ${{ github.repository }}
+            ブランチ: ${{ github.ref_name }}
+
+            ▼ 失敗内容
+            Playwright のテストが1件以上失敗しています。
+
+            ▼ 詳細（動画・スクリーンショット）
+            以下のURLから Artifacts（test-results / playwright-report）をダウンロードしてください。
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
