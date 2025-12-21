@@ -167,9 +167,9 @@ jobs:
         id: subject
         run: |
           if [ "${{ steps.run_tests.outputs.exit_code }}" = "0" ]; then
-            echo "value=【ターキッシュ航空LP】自動チェック：問題ありませんでした" >> $GITHUB_OUTPUT
+            echo "value=【サイト自動チェック】：問題ありませんでした" >> $GITHUB_OUTPUT
           else
-            echo "value=【ターキッシュ航空LP】自動チェック：不具合を検知しました" >> $GITHUB_OUTPUT
+            echo "value=【サイト自動チェック】：不具合を検知しました" >> $GITHUB_OUTPUT
           fi
 
       # ★ メール送信（成功時）
