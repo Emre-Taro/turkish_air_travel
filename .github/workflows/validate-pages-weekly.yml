@@ -69,7 +69,7 @@ jobs:
           cat test-failures.yaml >> mail-body.txt
           echo "" >> mail-body.txt
           echo "▼ 補足" >> mail-body.txt
-          echo "- 動画・スクリーンショット: Artifacts の「test-results」" >> mail-body.txt
+          echo "- スクリーンショット: メールに添付されています" >> mail-body.txt
           echo "- HTMLレポート: Artifacts の「playwright-report」" >> mail-body.txt
           echo "- テスト結果YAML: Artifacts の「test-failures」" >> mail-body.txt
           echo "" >> mail-body.txt
@@ -80,6 +80,14 @@ jobs:
           echo "- description: テストの説明" >> mail-body.txt
           echo "- error: エラーメッセージ" >> mail-body.txt
           echo "- location: エラーが発生したファイルと行番号" >> mail-body.txt
+
+      - name: Collect failure screenshots
+        if: always()
+        run: |
+          mkdir -p mail-attachments
+          find test-results -type f -name "test-failed-*.png" | head -n 5 | while read f; do
+            cp "$f" mail-attachments/ || true
+          done
 
       - name: Upload Playwright report
         if: always()
@@ -115,7 +123,8 @@ jobs:
           secure: true
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "[自動監視] ページ検証テストが失敗しました"
+          subject: "【自動検証システム】ページに不具合がありました"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
           body_file: mail-body.txt
+          attachments: mail-attachments/*
