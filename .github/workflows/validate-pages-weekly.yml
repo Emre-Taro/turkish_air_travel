@@ -32,10 +32,16 @@ jobs:
         id: run_tests
         run: |
           set +e
-          # HTML + JSON + list を同時に出す（HTMLはplaywright-report/を作る）
-          npx playwright test --reporter=html --reporter=json:test-results.json --reporter=list
+          npx playwright test
           echo "exit_code=$?" >> $GITHUB_OUTPUT
           set -e
+
+      # ★ test-results.jsonの内容をデバッグ（失敗原因の切り分け用）
+      - name: Debug test-results.json summary
+        if: always()
+        run: |
+          ls -la test-results.json || true
+          node -e "const fs=require('fs'); const p='test-results.json'; if(!fs.existsSync(p)){console.log('NO test-results.json'); process.exit(0);} const j=JSON.parse(fs.readFileSync(p,'utf8')); const s=JSON.stringify(j); console.log('contains \"failed\"?', s.includes('failed')); console.log('top keys:', Object.keys(j)); console.log('has suites?', !!j.suites, 'suites length:', (j.suites||[]).length);"
 
       # ★ 失敗しても必ず解析する
       - name: Parse test results
@@ -77,51 +83,42 @@ jobs:
             echo "total_tests: 12" >> test-failures.yaml
           fi
 
-      # ★ メール本文ファイルを作る（失敗時用）
-      - name: Build mail body
+      # ★ 先方向けメール本文を作成（簡潔で読みやすい形式）
+      - name: Build client mail body
         if: always()
         run: |
-          # メール本文ファイルを初期化
-          echo "ページ検証テスト結果" > mail-body.txt
-          echo "" >> mail-body.txt
-          echo "実行日時（JST）: ${{ github.run_started_at }}" >> mail-body.txt
-          echo "リポジトリ: ${{ github.repository }}" >> mail-body.txt
-          echo "ブランチ: ${{ github.ref_name }}" >> mail-body.txt
-          echo "" >> mail-body.txt
-          echo "実行URL（Artifactsあり）:" >> mail-body.txt
-          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> mail-body.txt
-          echo "" >> mail-body.txt
-          
-          # test-failures.yamlが存在し、かつ空でない場合のみ内容を追加
-          if [ -f test-failures.yaml ] && [ -s test-failures.yaml ]; then
-            echo "▼ 失敗したテストの詳細（YAML形式）" >> mail-body.txt
-            echo "" >> mail-body.txt
-            # YAMLファイルの内容を安全に追加（エラーハンドリング付き）
-            cat test-failures.yaml >> mail-body.txt 2>&1 || echo "（テスト結果の読み込みに失敗しました）" >> mail-body.txt
-            echo "" >> mail-body.txt
+          # 成功/失敗判定
+          if [ "${{ steps.run_tests.outputs.exit_code }}" = "0" ]; then
+            echo "自動チェックを実行しました。" > mail-body-client.txt
+            echo "" >> mail-body-client.txt
+            echo "結果：成功（問題は検知されませんでした）" >> mail-body-client.txt
+            echo "" >> mail-body-client.txt
+            echo "何かご不明点があれば本メールにご返信ください。" >> mail-body-client.txt
           else
-            echo "▼ 失敗したテストの詳細" >> mail-body.txt
-            echo "" >> mail-body.txt
-            echo "（テスト結果ファイルが見つからないか、解析できませんでした）" >> mail-body.txt
-            echo "" >> mail-body.txt
+            echo "自動チェックを実行しました。" > mail-body-client.txt
+            echo "" >> mail-body-client.txt
+            echo "結果：失敗（不具合を検知）" >> mail-body-client.txt
+            echo "" >> mail-body-client.txt
+            echo "内容：" >> mail-body-client.txt
+
+            # test-failures.yaml があれば、最初の1件だけ要約して出す（無ければ代替文）
+            if [ -f test-failures.yaml ] && [ -s test-failures.yaml ]; then
+              # id/name/page/error を雑に抜く（YAML厳密パースじゃなく簡易抽出）
+              NAME=$(grep -m1 '^\s*name:' test-failures.yaml | sed 's/^\s*name:\s*//; s/^"//; s/"$//' || echo "")
+              PAGE=$(grep -m1 '^\s*page:' test-failures.yaml | sed 's/^\s*page:\s*//; s/^"//; s/"$//' || echo "")
+              ERROR=$(grep -m1 '^\s*error:' test-failures.yaml | sed 's/^\s*error:\s*//; s/^"//; s/"$//' | head -c 200 || echo "")
+
+              [ -n "$NAME" ] && echo "- テスト: ${NAME}" >> mail-body-client.txt
+              [ -n "$PAGE" ] && echo "- 対象ページ: ${PAGE}" >> mail-body-client.txt
+              [ -n "$ERROR" ] && echo "- 原因: ${ERROR}" >> mail-body-client.txt
+            else
+              echo "- 詳細情報の取得に失敗しました（ログを確認中です）" >> mail-body-client.txt
+            fi
+
+            echo "" >> mail-body-client.txt
+            echo "※ 失敗時の画面キャプチャを添付しています。" >> mail-body-client.txt
+            echo "何かご不明点があれば本メールにご返信ください。" >> mail-body-client.txt
           fi
-          
-          echo "▼ 補足" >> mail-body.txt
-          echo "- スクリーンショット: メールに添付されています" >> mail-body.txt
-          echo "- HTMLレポート: Artifacts の「playwright-report」からダウンロードできます" >> mail-body.txt
-          echo "- テスト結果YAML: Artifacts の「test-failures」からダウンロードできます" >> mail-body.txt
-          echo "- 詳細なテスト結果: Artifacts の「test-results」からダウンロードできます" >> mail-body.txt
-          echo "" >> mail-body.txt
-          echo "各テスト項目には以下の情報が含まれています：" >> mail-body.txt
-          echo "- id: テストID（1-12）" >> mail-body.txt
-          echo "- name: テスト名" >> mail-body.txt
-          echo "- page: テスト対象のページURL" >> mail-body.txt
-          echo "- description: テストの説明" >> mail-body.txt
-          echo "- error: エラーメッセージ" >> mail-body.txt
-          echo "- location: エラーが発生したファイルと行番号" >> mail-body.txt
-          
-          # デバッグ用：生成されたメール本文のサイズを確認
-          echo "Generated mail-body.txt size: $(wc -c < mail-body.txt) bytes" || true
 
       - name: Collect failure screenshots
         if: always()
@@ -155,32 +152,28 @@ jobs:
           path: test-failures.yaml
           retention-days: 14
 
-      # ★ 成功時のメール本文を作成
-      - name: Build success mail body
-        if: ${{ steps.run_tests.outputs.exit_code == '0' }}
-        run: |
-          echo "ページ検証テスト結果" > mail-body-success.txt
-          echo "" >> mail-body-success.txt
-          echo "実行日時（JST）: ${{ github.run_started_at }}" >> mail-body-success.txt
-          echo "リポジトリ: ${{ github.repository }}" >> mail-body-success.txt
-          echo "ブランチ: ${{ github.ref_name }}" >> mail-body-success.txt
-          echo "" >> mail-body-success.txt
-          echo "テストが正常に終了しました。ページに不具合はございません。" >> mail-body-success.txt
-          echo "" >> mail-body-success.txt
-          echo "実行URL（Artifactsあり）:" >> mail-body-success.txt
-          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> mail-body-success.txt
-
-      # ★ 成功時のメール本文を読み込んでoutputsに設定
-      - name: Read success mail body
-        if: ${{ steps.run_tests.outputs.exit_code == '0' }}
-        id: success-body
+      # ★ メール本文を読み込んでoutputsに設定
+      - name: Read client mail body
+        if: always()
+        id: client_body
         run: |
           echo "body<<EOF" >> $GITHUB_OUTPUT
-          cat mail-body-success.txt >> $GITHUB_OUTPUT
+          cat mail-body-client.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # ★ 成功時にメールを送信
-      - name: Send success email
+      # ★ 件名を設定
+      - name: Set mail subject
+        if: always()
+        id: subject
+        run: |
+          if [ "${{ steps.run_tests.outputs.exit_code }}" = "0" ]; then
+            echo "value=【ターキッシュ航空LP】自動チェック：問題ありませんでした" >> $GITHUB_OUTPUT
+          else
+            echo "value=【ターキッシュ航空LP】自動チェック：不具合を検知しました" >> $GITHUB_OUTPUT
+          fi
+
+      # ★ メール送信（成功時）
+      - name: Send mail (success)
         if: ${{ steps.run_tests.outputs.exit_code == '0' }}
         uses: dawidd6/action-send-mail@v3
         with:
@@ -189,22 +182,13 @@ jobs:
           secure: true
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "【自動検証システム】ページ検証テスト正常終了"
+          subject: ${{ steps.subject.outputs.value }}
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
-          body: ${{ steps.success-body.outputs.body }}
+          body: ${{ steps.client_body.outputs.body }}
 
-      # ★ 失敗時のメール本文を読み込んでoutputsに設定
-      - name: Read failure mail body
-        if: ${{ steps.run_tests.outputs.exit_code != '0' }}
-        id: failure-body
-        run: |
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          cat mail-body.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      # ★ 失敗時だけ送る（exit codeで判定）
-      - name: Send failure email
+      # ★ メール送信（失敗時・添付ファイルあり）
+      - name: Send mail (failure)
         if: ${{ steps.run_tests.outputs.exit_code != '0' }}
         uses: dawidd6/action-send-mail@v3
         with:
@@ -213,10 +197,10 @@ jobs:
           secure: true
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "【自動検証システム】ページに不具合がありました"
+          subject: ${{ steps.subject.outputs.value }}
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
-          body: ${{ steps.failure-body.outputs.body }}
+          body: ${{ steps.client_body.outputs.body }}
           attachments: |
             mail-attachments/*
             test-failures.yaml

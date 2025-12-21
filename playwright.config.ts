@@ -18,4 +18,9 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
+  reporter: [
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results.json' }],
+    ['list'],
+  ],
 });
