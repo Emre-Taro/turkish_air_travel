@@ -39,8 +39,34 @@ jobs:
         if: always()
         run: |
           if [ -f test-results.json ]; then
-            node scripts/parse-test-results.js test-results.json > test-failures.yaml 2>&1 || true
+            # スクリプトの標準出力のみをYAMLファイルに（標準エラー出力はログに分離）
+            node scripts/parse-test-results.js test-results.json > test-failures.yaml 2>parse-errors.log || {
+              echo "Warning: Test result parsing may have failed, check parse-errors.log"
+              # 解析に失敗した場合でも空のYAMLファイルを作成
+              echo "failed_tests:" > test-failures.yaml
+              echo "  []" >> test-failures.yaml
+              echo "" >> test-failures.yaml
+              echo "total_failed: 0" >> test-failures.yaml
+              echo "total_tests: 12" >> test-failures.yaml
+            }
+            # エラーログがあれば表示
+            if [ -s parse-errors.log ]; then
+              echo "Parse errors:"
+              cat parse-errors.log
+            fi
+            # YAMLファイルが正しく生成されたか確認
+            if [ ! -f test-failures.yaml ] || [ ! -s test-failures.yaml ]; then
+              echo "Error: test-failures.yaml was not created or is empty"
+              echo "failed_tests:" > test-failures.yaml
+              echo "  []" >> test-failures.yaml
+              echo "" >> test-failures.yaml
+              echo "total_failed: 0" >> test-failures.yaml
+              echo "total_tests: 12" >> test-failures.yaml
+            else
+              echo "test-failures.yaml created successfully ($(wc -c < test-failures.yaml) bytes)"
+            fi
           else
+            echo "test-results.json not found, creating empty test-failures.yaml"
             echo "failed_tests:" > test-failures.yaml
             echo "  []" >> test-failures.yaml
             echo "" >> test-failures.yaml
@@ -48,10 +74,11 @@ jobs:
             echo "total_tests: 12" >> test-failures.yaml
           fi
 
-      # ★ メール本文ファイルを作る（失敗時だけ送る）
+      # ★ メール本文ファイルを作る（失敗時用）
       - name: Build mail body
         if: always()
         run: |
+          # メール本文ファイルを初期化
           echo "ページ検証テスト結果" > mail-body.txt
           echo "" >> mail-body.txt
           echo "実行日時（JST）: ${{ github.run_started_at }}" >> mail-body.txt
@@ -61,17 +88,26 @@ jobs:
           echo "実行URL（Artifactsあり）:" >> mail-body.txt
           echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> mail-body.txt
           echo "" >> mail-body.txt
-
-          # run-tests が失敗したかどうかは、この step の if 条件では取れないので
-          # 後段の「Send failure email」を失敗時だけにして、本文は常に作っておく
-          echo "▼ 失敗したテストの詳細（YAML形式）" >> mail-body.txt
-          echo "" >> mail-body.txt
-          cat test-failures.yaml >> mail-body.txt
-          echo "" >> mail-body.txt
+          
+          # test-failures.yamlが存在し、かつ空でない場合のみ内容を追加
+          if [ -f test-failures.yaml ] && [ -s test-failures.yaml ]; then
+            echo "▼ 失敗したテストの詳細（YAML形式）" >> mail-body.txt
+            echo "" >> mail-body.txt
+            # YAMLファイルの内容を安全に追加（エラーハンドリング付き）
+            cat test-failures.yaml >> mail-body.txt 2>&1 || echo "（テスト結果の読み込みに失敗しました）" >> mail-body.txt
+            echo "" >> mail-body.txt
+          else
+            echo "▼ 失敗したテストの詳細" >> mail-body.txt
+            echo "" >> mail-body.txt
+            echo "（テスト結果ファイルが見つからないか、解析できませんでした）" >> mail-body.txt
+            echo "" >> mail-body.txt
+          fi
+          
           echo "▼ 補足" >> mail-body.txt
           echo "- スクリーンショット: メールに添付されています" >> mail-body.txt
-          echo "- HTMLレポート: Artifacts の「playwright-report」" >> mail-body.txt
-          echo "- テスト結果YAML: Artifacts の「test-failures」" >> mail-body.txt
+          echo "- HTMLレポート: Artifacts の「playwright-report」からダウンロードできます" >> mail-body.txt
+          echo "- テスト結果YAML: Artifacts の「test-failures」からダウンロードできます" >> mail-body.txt
+          echo "- 詳細なテスト結果: Artifacts の「test-results」からダウンロードできます" >> mail-body.txt
           echo "" >> mail-body.txt
           echo "各テスト項目には以下の情報が含まれています：" >> mail-body.txt
           echo "- id: テストID（1-12）" >> mail-body.txt
@@ -80,6 +116,9 @@ jobs:
           echo "- description: テストの説明" >> mail-body.txt
           echo "- error: エラーメッセージ" >> mail-body.txt
           echo "- location: エラーが発生したファイルと行番号" >> mail-body.txt
+          
+          # デバッグ用：生成されたメール本文のサイズを確認
+          echo "Generated mail-body.txt size: $(wc -c < mail-body.txt) bytes" || true
 
       - name: Collect failure screenshots
         if: always()
@@ -112,6 +151,36 @@ jobs:
           name: test-failures
           path: test-failures.yaml
           retention-days: 14
+
+      # ★ 成功時のメール本文を作成
+      - name: Build success mail body
+        if: success()
+        run: |
+          echo "ページ検証テスト結果" > mail-body-success.txt
+          echo "" >> mail-body-success.txt
+          echo "実行日時（JST）: ${{ github.run_started_at }}" >> mail-body-success.txt
+          echo "リポジトリ: ${{ github.repository }}" >> mail-body-success.txt
+          echo "ブランチ: ${{ github.ref_name }}" >> mail-body-success.txt
+          echo "" >> mail-body-success.txt
+          echo "テストが正常に終了しました。ページに不具合はございません。" >> mail-body-success.txt
+          echo "" >> mail-body-success.txt
+          echo "実行URL（Artifactsあり）:" >> mail-body-success.txt
+          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> mail-body-success.txt
+
+      # ★ 成功時にメールを送信
+      - name: Send success email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          secure: true
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "【自動検証システム】ページ検証テスト正常終了"
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_FROM }}
+          body_file: mail-body-success.txt
 
       # ★ 失敗時だけ送る（ここが failure() で動く）
       - name: Send failure email

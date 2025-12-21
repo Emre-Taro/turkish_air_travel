@@ -256,21 +256,20 @@ function parseTestResults() {
 
 try {
   const { yaml: yamlOutput, failedTests } = parseTestResults();
-  console.log(yamlOutput);
   
-  // YAMLファイルとしても出力
-  const outputPath = 'test-failures.yaml';
-  fs.writeFileSync(outputPath, yamlOutput, 'utf-8');
-  console.error(`Test failures written to: ${outputPath} (${failedTests.length} failed)`);
+  // 標準出力にYAMLを出力（ワークフローでリダイレクトされる）
+  process.stdout.write(yamlOutput);
   
-  // 終了コードを設定（失敗があった場合は1）
-  process.exit(failedTests.length > 0 ? 0 : 0); // 0を返す（ワークフローでは既に失敗判定されているため）
+  // デバッグ情報は標準エラー出力に（YAMLファイルには含めない）
+  process.stderr.write(`Test failures written: ${failedTests.length} failed tests\n`);
+  
+  // 終了コードは0（成功）を返す（ワークフローでは既に失敗判定されているため）
+  process.exit(0);
 } catch (error) {
-  console.error('Error parsing test results:', error);
   // エラーが発生した場合でも空のYAMLを出力
   const emptyYaml = 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 12\n';
-  fs.writeFileSync('test-failures.yaml', emptyYaml, 'utf-8');
-  console.error(emptyYaml);
+  process.stdout.write(emptyYaml);
+  process.stderr.write(`Error parsing test results: ${error.message}\n`);
   process.exit(1);
 }
 
