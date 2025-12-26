@@ -24,23 +24,43 @@ const TEST_MAPPING = {
       description: '羽田発を選択後、人気ランキングに表示される8個のカードについて、各カードの「詳細はこちら」と「パンフレットはこちら」ボタンが正しいURLに遷移することを確認'
     }
   },
-  'web-test/sidebar-web-test/scroll/sidebar-web-test.spec.ts': {
-    'LP右サイドバー：ボタン→スクロールを同一ページで順番に確認': {
+  'web-test/button-web-test/banner-button-test.spec.ts': {
+    '左から2つのセクションと5つ目のセクション（hover必要）のボタンが正しく遷移する': {
       id: 3,
-      name: 'LP右サイドバー：ボタン→スクロールを同一ページで順番に確認',
+      name: '左から2つのセクションと5つ目のセクション（hover必要）のボタンが正しく遷移する',
+      page: 'https://turkish.jp/',
+      description: 'ページ上部バナーの左から1つ目、2つ目、5つ目（hover必要）のセクションのボタンが正しいURLに遷移することを確認'
+    },
+    'バナーセクション3（直接クリック）のボタンが正しく遷移する': {
+      id: 4,
+      name: 'バナーセクション3（直接クリック）のボタンが正しく遷移する',
+      page: 'https://turkish.jp/',
+      description: 'ページ上部バナーのセクション3（直接クリック可能）のボタンが正しいURLに遷移することを確認'
+    },
+    'バナーセクション4（直接クリック）のボタンが正しく遷移する': {
+      id: 5,
+      name: 'バナーセクション4（直接クリック）のボタンが正しく遷移する',
+      page: 'https://turkish.jp/',
+      description: 'ページ上部バナーのセクション4（直接クリック可能）のボタンが正しいURLに遷移することを確認'
+    }
+  },
+  'web-test/sidebar-web-test/scroll/sidebar-web-test.spec.ts': {
+    '右サイドバー：ボタン→スクロールを同一ページで順番に確認': {
+      id: 6,
+      name: '右サイドバー：ボタン→スクロールを同一ページで順番に確認',
       page: 'https://turkish.jp/',
       description: 'トルコツアー人気ランキング、ターキッシュのこだわり10ポイント、お客様の声満足度97%の3つのアンカーリンクをクリックし、正しい位置にスクロールすることを確認'
     }
   },
   'web-test/sidebar-web-test/jump-page/sidebar-web-jjump-page-test.spec.ts': {
     '「全コース簡単選択」→ overlay が visible になり is-visible が付く': {
-      id: 4,
+      id: 7,
       name: '「全コース簡単選択」→ overlay が visible になり is-visible が付く',
       page: 'https://turkish.jp/',
       description: 'サイドバーの「全コース簡単選択」ボタンをクリックし、オーバーレイが表示されることを確認'
     },
     '外部/別URL遷移ボタン（href一致）→ 最終URLの origin+pathname を検証': {
-      id: 5,
+      id: 8,
       name: '外部/別URL遷移ボタン（href一致）→ 最終URLの origin+pathname を検証',
       page: 'https://turkish.jp/',
       description: '外部/別URL遷移ボタンが正しいURLに遷移することを確認'
@@ -49,13 +69,13 @@ const TEST_MAPPING = {
   // LPテスト
   'lp_test/button-lp-test/button-lp-test.spec.ts': {
     'ランキングカード内の「パンフレット」「詳細」がhref通りに遷移する': {
-      id: 6,
+      id: 9,
       name: 'ランキングカード内の「パンフレット」「詳細」がhref通りに遷移する',
       page: 'https://turkish.co.jp/special/',
       description: 'ランキングカード内の「パンフレット」と「詳細」ボタンが正しいURLに遷移することを確認'
     },
     'ランキングカード下の追加リンクが正しく遷移する': {
-      id: 7,
+      id: 10,
       name: 'ランキングカード下の追加リンクが正しく遷移する',
       page: 'https://turkish.co.jp/special/',
       description: 'ランキングカード下の追加リンク（成田発ツアー一覧、ビジネスクラス、ANA就航記念キャンペーン等）が正しいURLに遷移することを確認'
@@ -63,7 +83,7 @@ const TEST_MAPPING = {
   },
   'lp_test/sidebar-lp-test/sidebar-lp-test.spec.ts': {
     'LP右サイドバー：ボタン→スクロールを同一ページで順番に確認': {
-      id: 8,
+      id: 11,
       name: 'LP右サイドバー：ボタン→スクロールを同一ページで順番に確認',
       page: 'https://turkish.co.jp/special/',
       description: 'サイドバーリンク（13項目）をクリックし、正しい位置にスクロールすることを確認'
@@ -71,25 +91,25 @@ const TEST_MAPPING = {
   },
   'lp_test/sidebar-lp-test/sidebar-lp-other-airport-test.spec.ts': {
     '関西発、名古屋発、福岡発ボタンが正しいURLに遷移する': {
-      id: 9,
+      id: 12,
       name: '関西発、名古屋発、福岡発ボタンが正しいURLに遷移する',
       page: 'https://turkish.co.jp/special/',
       description: 'ランキングセクション下部の出発地ボタン（関空発、名古屋発、福岡発）が正しいURLに遷移することを確認'
     },
     '関西発ページのサイドバーが正常にスクロールする': {
-      id: 10,
+      id: 13,
       name: '関西発ページのサイドバーが正常にスクロールする',
       page: 'https://turkish.co.jp/special-k/',
       description: '関西発ページのサイドバーリンク（13項目）をクリックし、正しい位置にスクロールすることを確認'
     },
     '名古屋発ページのサイドバーが正常にスクロールする': {
-      id: 11,
+      id: 14,
       name: '名古屋発ページのサイドバーが正常にスクロールする',
       page: 'https://turkish.co.jp/special-n/',
       description: '名古屋発ページのサイドバーリンク（13項目）をクリックし、正しい位置にスクロールすることを確認'
     },
     '福岡発ページのサイドバーが正常にスクロールする': {
-      id: 12,
+      id: 15,
       name: '福岡発ページのサイドバーが正常にスクロールする',
       page: 'https://turkish.jp/special-f/',
       description: '福岡発ページのサイドバーリンク（9項目）をクリックし、正しい位置にスクロールすることを確認'
@@ -186,7 +206,7 @@ function parseTestResults() {
   if (!fs.existsSync(resultsPath)) {
     // ファイルがない場合は空の結果を返す
     return {
-      yaml: 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 12\n',
+      yaml: 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 15\n',
       failedTests: []
     };
   }
@@ -275,7 +295,7 @@ function parseTestResults() {
   }
 
   yaml += `\ntotal_failed: ${failedTests.length}\n`;
-  yaml += `total_tests: 12\n`;
+  yaml += `total_tests: 15\n`;
 
   return { yaml, failedTests };
 }
@@ -293,7 +313,7 @@ try {
   process.exit(0);
 } catch (error) {
   // エラーが発生した場合でも空のYAMLを出力
-  const emptyYaml = 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 12\n';
+  const emptyYaml = 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 15\n';
   process.stdout.write(emptyYaml);
   process.stderr.write(`Error parsing test results: ${error.message}\n`);
   process.exit(1);
