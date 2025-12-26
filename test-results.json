@@ -1,0 +1,355 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\emreh\\turkish_air_travel\\playwright.config.ts",
+    "rootDir": "C:/Users/emreh/turkish_air_travel",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/emreh/turkish_air_travel/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/emreh/turkish_air_travel",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/test-results/**"
+        ],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "web-test\\button-web-test\\banner-button-test.spec.ts",
+      "file": "web-test/button-web-test/banner-button-test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WEB: ページ上部バナーのボタン遷移テスト",
+          "file": "web-test/button-web-test/banner-button-test.spec.ts",
+          "line": 335,
+          "column": 6,
+          "specs": [
+            {
+              "title": "左から2つのセクションと5つ目のセクション（hover必要）のボタンが正しく遷移する",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 181068,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
+                            "column": 28,
+                            "line": 397
+                          },
+                          "message": "Error: locator.hover: Test timeout of 180000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('ul.nav__list').first().locator('li.nav__item--drop').first()\u001b[22m\n\u001b[2m    - locator resolved to <li class=\"nav__item--drop\">…</li>\u001b[22m\n\n\n\u001b[0m \u001b[90m 395 |\u001b[39m             \n \u001b[90m 396 |\u001b[39m             \u001b[90m// 戻ったら再度hoverする必要がある\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 397 |\u001b[39m             \u001b[36mawait\u001b[39m section1\u001b[33m.\u001b[39mhover({ timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 398 |\u001b[39m             \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m300\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 399 |\u001b[39m           })\u001b[33m;\u001b[39m\n \u001b[90m 400 |\u001b[39m         }\u001b[0m\n\u001b[2m    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:397:28\u001b[22m\n\u001b[2m    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:393:11\u001b[22m\n\u001b[2m    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:366:5\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "セクション1（左から1つ目）のボタンをクリック",
+                          "duration": 175430,
+                          "error": {
+                            "message": "Error: locator.hover: Test timeout of 180000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('ul.nav__list').first().locator('li.nav__item--drop').first()\u001b[22m\n\u001b[2m    - locator resolved to <li class=\"nav__item--drop\">…</li>\u001b[22m\n",
+                            "stack": "Error: locator.hover: Test timeout of 180000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('ul.nav__list').first().locator('li.nav__item--drop').first()\u001b[22m\n\u001b[2m    - locator resolved to <li class=\"nav__item--drop\">…</li>\u001b[22m\n\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:397:28\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:393:11\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:366:5",
+                            "location": {
+                              "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
+                              "column": 28,
+                              "line": 397
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 395 |\u001b[39m             \n \u001b[90m 396 |\u001b[39m             \u001b[90m// 戻ったら再度hoverする必要がある\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 397 |\u001b[39m             \u001b[36mawait\u001b[39m section1\u001b[33m.\u001b[39mhover({ timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 398 |\u001b[39m             \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m300\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 399 |\u001b[39m           })\u001b[33m;\u001b[39m\n \u001b[90m 400 |\u001b[39m         }\u001b[0m"
+                          },
+                          "steps": [
+                            {
+                              "title": "セクション1 / ボタン1 (直行便 トルコ航空で行く8日間)",
+                              "duration": 23655
+                            },
+                            {
+                              "title": "セクション1 / ボタン2 (直行便 トルコ航空で行く9日間)",
+                              "duration": 6422
+                            },
+                            {
+                              "title": "セクション1 / ボタン3 (直行便 トルコ航空で行く10日間)",
+                              "duration": 6555
+                            },
+                            {
+                              "title": "セクション1 / ボタン4 (直行便 ANAで行くトルコ6・9・11日間)",
+                              "duration": 6455
+                            },
+                            {
+                              "title": "セクション1 / ボタン5 (直行便 ビジネスクラスで行くトルコ)",
+                              "duration": 7042
+                            },
+                            {
+                              "title": "セクション1 / ボタン6 (JAL利用トルコ 9・10日間)",
+                              "duration": 6785
+                            },
+                            {
+                              "title": "セクション1 / ボタン7 (羽田発8日間)",
+                              "duration": 6592
+                            },
+                            {
+                              "title": "セクション1 / ボタン8 (羽田発9日間)",
+                              "duration": 6550
+                            },
+                            {
+                              "title": "セクション1 / ボタン9 (羽田発10日間)",
+                              "duration": 6574
+                            },
+                            {
+                              "title": "セクション1 / ボタン10 (成田発8日間)",
+                              "duration": 6377
+                            },
+                            {
+                              "title": "セクション1 / ボタン11 (成田発9日間)",
+                              "duration": 6522
+                            },
+                            {
+                              "title": "セクション1 / ボタン12 (成田発10日間)",
+                              "duration": 6469
+                            },
+                            {
+                              "title": "セクション1 / ボタン13 (大阪発8日間)",
+                              "duration": 6461
+                            },
+                            {
+                              "title": "セクション1 / ボタン14 (大阪発9日間)",
+                              "duration": 6503
+                            },
+                            {
+                              "title": "セクション1 / ボタン15 (大阪発10日間)",
+                              "duration": 6422
+                            },
+                            {
+                              "title": "セクション1 / ボタン16 (名古屋発8日間)",
+                              "duration": 6519
+                            },
+                            {
+                              "title": "セクション1 / ボタン17 (名古屋発9日間)",
+                              "duration": 6512
+                            },
+                            {
+                              "title": "セクション1 / ボタン18 (名古屋発10日間)",
+                              "duration": 6505
+                            },
+                            {
+                              "title": "セクション1 / ボタン19 (福岡発8日間)",
+                              "duration": 6397
+                            },
+                            {
+                              "title": "セクション1 / ボタン20 (福岡発9日間)",
+                              "duration": 6497
+                            },
+                            {
+                              "title": "セクション1 / ボタン21 (福岡発10日間)",
+                              "duration": 6392
+                            },
+                            {
+                              "title": "セクション1 / ボタン22 (その他8日間)",
+                              "duration": 6501
+                            },
+                            {
+                              "title": "セクション1 / ボタン23 (その他9日間)",
+                              "duration": 6498
+                            },
+                            {
+                              "title": "セクション1 / ボタン24 (その他10日間)",
+                              "duration": 6264,
+                              "error": {
+                                "message": "Error: locator.hover: Test timeout of 180000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('ul.nav__list').first().locator('li.nav__item--drop').first()\u001b[22m\n\u001b[2m    - locator resolved to <li class=\"nav__item--drop\">…</li>\u001b[22m\n",
+                                "stack": "Error: locator.hover: Test timeout of 180000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('ul.nav__list').first().locator('li.nav__item--drop').first()\u001b[22m\n\u001b[2m    - locator resolved to <li class=\"nav__item--drop\">…</li>\u001b[22m\n\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:397:28\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:393:11\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:366:5",
+                                "location": {
+                                  "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
+                                  "column": 28,
+                                  "line": 397
+                                },
+                                "snippet": "\u001b[0m \u001b[90m 395 |\u001b[39m             \n \u001b[90m 396 |\u001b[39m             \u001b[90m// 戻ったら再度hoverする必要がある\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 397 |\u001b[39m             \u001b[36mawait\u001b[39m section1\u001b[33m.\u001b[39mhover({ timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 398 |\u001b[39m             \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m300\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 399 |\u001b[39m           })\u001b[33m;\u001b[39m\n \u001b[90m 400 |\u001b[39m         }\u001b[0m"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "startTime": "2025-12-26T06:51:52.014Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2bed06deaa2fef738e5a-5ef7f131563fc804966b",
+              "file": "web-test/button-web-test/banner-button-test.spec.ts",
+              "line": 347,
+              "column": 7
+            },
+            {
+              "title": "バナーセクション3（直接クリック）のボタンが正しく遷移する",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8636,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-26T06:54:57.199Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2bed06deaa2fef738e5a-9f922bd3dabe273ce8f2",
+              "file": "web-test/button-web-test/banner-button-test.spec.ts",
+              "line": 510,
+              "column": 7
+            },
+            {
+              "title": "バナーセクション4（直接クリック）のボタンが正しく遷移する",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8265,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-26T06:55:06.386Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2bed06deaa2fef738e5a-6b7f387d6cd53e7fe2a7",
+              "file": "web-test/button-web-test/banner-button-test.spec.ts",
+              "line": 536,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-12-26T06:51:48.779Z",
+    "duration": 206290.499,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
