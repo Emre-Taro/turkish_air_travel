@@ -68,420 +68,463 @@
   },
   "suites": [
     {
-      "title": "web-test\\button-web-test\\banner-button-test.spec.ts",
-      "file": "web-test/button-web-test/banner-button-test.spec.ts",
+      "title": "image_check\\web-image-check\\web-image-test.spec.ts",
+      "file": "image_check/web-image-check/web-image-test.spec.ts",
       "column": 0,
       "line": 0,
-      "specs": [],
-      "suites": [
+      "specs": [
         {
-          "title": "WEB: ページ上部バナーのボタン遷移テスト",
-          "file": "web-test/button-web-test/banner-button-test.spec.ts",
-          "line": 158,
-          "column": 6,
-          "specs": [
+          "title": "画像が正しく表示されている",
+          "ok": true,
+          "tags": [],
+          "tests": [
             {
-              "title": "左から2つのセクションと5つ目のセクション（hover必要）のボタンが正しく遷移する",
-              "ok": false,
-              "tags": [],
-              "tests": [
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
                 {
-                  "timeout": 180000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3451,
+                  "errors": [],
+                  "stdout": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 71951,
-                      "error": {
-                        "message": "Error: page.waitForTimeout: Target page, context or browser has been closed",
-                        "stack": "Error: page.waitForTimeout: Target page, context or browser has been closed\n    at clickAndAssertFollowsHref (C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:145:16)\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:296:13\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:295:11\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:266:5",
-                        "location": {
-                          "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
-                          "column": 16,
-                          "line": 145
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 143 |\u001b[39m     \u001b[90m// 遷移後に広告が出ている場合は閉じる\u001b[39m\n \u001b[90m 144 |\u001b[39m     \u001b[36mawait\u001b[39m dismissAdvertisements(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 145 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 146 |\u001b[39m     \n \u001b[90m 147 |\u001b[39m     \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m originPath(page\u001b[33m.\u001b[39murl())\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m.\u001b[39mtoBe(expectedOriginPath)\u001b[33m;\u001b[39m\n \u001b[90m 148 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m,\u001b[39m \u001b[32m`[${label}] looks like a 404 page`\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/404|not found/i\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
-                            "column": 16,
-                            "line": 145
-                          },
-                          "message": "Error: page.waitForTimeout: Target page, context or browser has been closed\n\n\u001b[0m \u001b[90m 143 |\u001b[39m     \u001b[90m// 遷移後に広告が出ている場合は閉じる\u001b[39m\n \u001b[90m 144 |\u001b[39m     \u001b[36mawait\u001b[39m dismissAdvertisements(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 145 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 146 |\u001b[39m     \n \u001b[90m 147 |\u001b[39m     \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m originPath(page\u001b[33m.\u001b[39murl())\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m.\u001b[39mtoBe(expectedOriginPath)\u001b[33m;\u001b[39m\n \u001b[90m 148 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m,\u001b[39m \u001b[32m`[${label}] looks like a 404 page`\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/404|not found/i\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at clickAndAssertFollowsHref (C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:145:16)\u001b[22m\n\u001b[2m    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:296:13\u001b[22m\n\u001b[2m    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:295:11\u001b[22m\n\u001b[2m    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:266:5\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "steps": [
-                        {
-                          "title": "セクション1（左から1つ目）のボタンをクリック",
-                          "duration": 40252,
-                          "steps": [
-                            {
-                              "title": "セクション1 / ボタン1/24 (直行便 トルコ航空で行く8日間)",
-                              "duration": 2374
-                            },
-                            {
-                              "title": "セクション1 / ボタン2/24 (直行便 トルコ航空で行く9日間)",
-                              "duration": 1829
-                            },
-                            {
-                              "title": "セクション1 / ボタン3/24 (直行便 トルコ航空で行く10日間)",
-                              "duration": 1693
-                            },
-                            {
-                              "title": "セクション1 / ボタン4/24 (直行便 ANAで行くトルコ6・9・11日間)",
-                              "duration": 1162
-                            },
-                            {
-                              "title": "セクション1 / ボタン5/24 (直行便 ビジネスクラスで行くトルコ)",
-                              "duration": 1767
-                            },
-                            {
-                              "title": "セクション1 / ボタン6/24 (JAL利用トルコ 9・10日間)",
-                              "duration": 1269
-                            },
-                            {
-                              "title": "セクション1 / ボタン7/24 (羽田発8日間)",
-                              "duration": 1618
-                            },
-                            {
-                              "title": "セクション1 / ボタン8/24 (羽田発9日間)",
-                              "duration": 1534
-                            },
-                            {
-                              "title": "セクション1 / ボタン9/24 (羽田発10日間)",
-                              "duration": 2064
-                            },
-                            {
-                              "title": "セクション1 / ボタン10/24 (成田発8日間)",
-                              "duration": 1499
-                            },
-                            {
-                              "title": "セクション1 / ボタン11/24 (成田発9日間)",
-                              "duration": 1868
-                            },
-                            {
-                              "title": "セクション1 / ボタン12/24 (成田発10日間)",
-                              "duration": 1819
-                            },
-                            {
-                              "title": "セクション1 / ボタン13/24 (大阪発8日間)",
-                              "duration": 1521
-                            },
-                            {
-                              "title": "セクション1 / ボタン14/24 (大阪発9日間)",
-                              "duration": 1639
-                            },
-                            {
-                              "title": "セクション1 / ボタン15/24 (大阪発10日間)",
-                              "duration": 1346
-                            },
-                            {
-                              "title": "セクション1 / ボタン16/24 (名古屋発8日間)",
-                              "duration": 1340
-                            },
-                            {
-                              "title": "セクション1 / ボタン17/24 (名古屋発9日間)",
-                              "duration": 1402
-                            },
-                            {
-                              "title": "セクション1 / ボタン18/24 (名古屋発10日間)",
-                              "duration": 1361
-                            },
-                            {
-                              "title": "セクション1 / ボタン19/24 (福岡発8日間)",
-                              "duration": 1372
-                            },
-                            {
-                              "title": "セクション1 / ボタン20/24 (福岡発9日間)",
-                              "duration": 1424
-                            },
-                            {
-                              "title": "セクション1 / ボタン21/24 (福岡発10日間)",
-                              "duration": 1816
-                            },
-                            {
-                              "title": "セクション1 / ボタン22/24 (その他8日間)",
-                              "duration": 1628
-                            },
-                            {
-                              "title": "セクション1 / ボタン23/24 (その他9日間)",
-                              "duration": 1510
-                            },
-                            {
-                              "title": "セクション1 / ボタン24/24 (その他10日間)",
-                              "duration": 1855
-                            }
-                          ]
-                        },
-                        {
-                          "title": "セクション2（左から2つ目）のボタンをクリック",
-                          "duration": 15659,
-                          "steps": [
-                            {
-                              "title": "セクション2 / ボタン1 (完全オーダーメイド世界にたったひとつの旅)",
-                              "duration": 6887
-                            },
-                            {
-                              "title": "セクション2 / ボタン2 (モデルコースから選ぶプライベートの旅)",
-                              "duration": 6490
-                            }
-                          ]
-                        },
-                        {
-                          "title": "セクション5（左から3つ目）のボタンをクリック",
-                          "duration": 13849,
-                          "error": {
-                            "message": "Error: page.waitForTimeout: Target page, context or browser has been closed",
-                            "stack": "Error: page.waitForTimeout: Target page, context or browser has been closed\n    at clickAndAssertFollowsHref (C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:145:16)\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:296:13\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:295:11\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:266:5",
-                            "location": {
-                              "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
-                              "column": 16,
-                              "line": 145
-                            },
-                            "snippet": "\u001b[0m \u001b[90m 143 |\u001b[39m     \u001b[90m// 遷移後に広告が出ている場合は閉じる\u001b[39m\n \u001b[90m 144 |\u001b[39m     \u001b[36mawait\u001b[39m dismissAdvertisements(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 145 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 146 |\u001b[39m     \n \u001b[90m 147 |\u001b[39m     \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m originPath(page\u001b[33m.\u001b[39murl())\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m.\u001b[39mtoBe(expectedOriginPath)\u001b[33m;\u001b[39m\n \u001b[90m 148 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m,\u001b[39m \u001b[32m`[${label}] looks like a 404 page`\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/404|not found/i\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
-                          },
-                          "steps": [
-                            {
-                              "title": "セクション5 / ボタン1 (お申込み・お支払・出発までの流れ)",
-                              "duration": 6982
-                            },
-                            {
-                              "title": "セクション5 / ボタン2 (よくあるご質問・お問合せ)",
-                              "duration": 5232,
-                              "error": {
-                                "message": "Error: page.waitForTimeout: Target page, context or browser has been closed",
-                                "stack": "Error: page.waitForTimeout: Target page, context or browser has been closed\n    at clickAndAssertFollowsHref (C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:145:16)\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:296:13\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:295:11\n    at C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts:266:5",
-                                "location": {
-                                  "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
-                                  "column": 16,
-                                  "line": 145
-                                },
-                                "snippet": "\u001b[0m \u001b[90m 143 |\u001b[39m     \u001b[90m// 遷移後に広告が出ている場合は閉じる\u001b[39m\n \u001b[90m 144 |\u001b[39m     \u001b[36mawait\u001b[39m dismissAdvertisements(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 145 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 146 |\u001b[39m     \n \u001b[90m 147 |\u001b[39m     \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m originPath(page\u001b[33m.\u001b[39murl())\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m_000 })\u001b[33m.\u001b[39mtoBe(expectedOriginPath)\u001b[33m;\u001b[39m\n \u001b[90m 148 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m,\u001b[39m \u001b[32m`[${label}] looks like a 404 page`\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/404|not found/i\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
-                              }
-                            }
-                          ]
-                        }
-                      ],
-                      "startTime": "2025-12-26T07:23:49.781Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-2.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-3.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-4.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-1.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-5.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-6.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-7.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-8.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-11.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-9.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-10.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-12.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-13.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-14.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-15.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-16.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-19.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-17.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-18.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-21.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-20.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-22.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-24.webm"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\emreh\\turkish_air_travel\\test-results\\web-test-button-web-test-b-16f59-のセクション（hover必要）のボタンが正しく遷移する-chromium\\video-23.webm"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Users\\emreh\\turkish_air_travel\\web-test\\button-web-test\\banner-button-test.spec.ts",
-                        "column": 16,
-                        "line": 145
-                      }
+                      "text": "\n=== 画像ロード検証結果 ===\n"
+                    },
+                    {
+                      "text": "総画像数: 236\n"
+                    },
+                    {
+                      "text": "検証対象: 126件\n"
+                    },
+                    {
+                      "text": "✅ 正常に読み込めた: 126件\n"
+                    },
+                    {
+                      "text": "❌ 読み込み失敗: 0件\n"
+                    },
+                    {
+                      "text": "📊 成功率: 100.00%\n"
+                    },
+                    {
+                      "text": "\nスキップ詳細:\n"
+                    },
+                    {
+                      "text": "  - レンダリングされていない（display:none等）: 109件\n"
+                    },
+                    {
+                      "text": "  - 表示サイズ0（トラッキングピクセル等）: 0件\n"
+                    },
+                    {
+                      "text": "  - 計測系（Google Analytics等）: 0件\n"
+                    },
+                    {
+                      "text": "  - srcが空: 1件\n"
+                    },
+                    {
+                      "text": "  - 合計スキップ: 110件\n"
+                    },
+                    {
+                      "text": "\nsrcが空の画像の詳細:\n"
+                    },
+                    {
+                      "text": "  [画像92]\n"
+                    },
+                    {
+                      "text": "    - インデックス: 91\n"
+                    },
+                    {
+                      "text": "    - class: yt-thumb\n"
+                    },
+                    {
+                      "text": "    - 表示サイズ: 686x385.875\n"
+                    },
+                    {
+                      "text": "\n"
+                    },
+                    {
+                      "text": "========================\n\n"
                     }
                   ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "2bed06deaa2fef738e5a-5ef7f131563fc804966b",
-              "file": "web-test/button-web-test/banner-button-test.spec.ts",
-              "line": 169,
-              "column": 7
-            },
-            {
-              "title": "バナーセクション3（直接クリック）のボタンが正しく遷移する",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-26T14:02:46.314Z",
                   "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-26T07:25:04.253Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
+                  "attachments": []
                 }
               ],
-              "id": "2bed06deaa2fef738e5a-9f922bd3dabe273ce8f2",
-              "file": "web-test/button-web-test/banner-button-test.spec.ts",
-              "line": 310,
-              "column": 7
-            },
-            {
-              "title": "バナーセクション4（直接クリック）のボタンが正しく遷移する",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "2bed06deaa2fef738e5a-6b7f387d6cd53e7fe2a7",
-              "file": "web-test/button-web-test/banner-button-test.spec.ts",
-              "line": 336,
-              "column": 7
+              "status": "expected"
             }
-          ]
+          ],
+          "id": "7e2a2744422138083899-5e73063a6d867f30f183",
+          "file": "image_check/web-image-check/web-image-test.spec.ts",
+          "line": 5,
+          "column": 5
+        },
+        {
+          "title": "画像が正しい縦横比で表示されている",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4190,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "\n=== 画像縦横比検証結果 ===\n"
+                    },
+                    {
+                      "text": "総画像数: 236\n"
+                    },
+                    {
+                      "text": "検証対象: 88件\n"
+                    },
+                    {
+                      "text": "✅ 正常な縦横比: 88件\n"
+                    },
+                    {
+                      "text": "❌ 縦横比エラー: 0件\n"
+                    },
+                    {
+                      "text": "📊 成功率: 100.00%\n"
+                    },
+                    {
+                      "text": "\nスキップ詳細:\n"
+                    },
+                    {
+                      "text": "  - ロード未完了: 1件\n"
+                    },
+                    {
+                      "text": "  - 表示サイズ0（トラッキングピクセル等）: 43件\n"
+                    },
+                    {
+                      "text": "  - 計測系（Google Analytics等）: 1件\n"
+                    },
+                    {
+                      "text": "  - プレースホルダー（data:image/svg+xml）: 0件\n"
+                    },
+                    {
+                      "text": "  - 重複URL: 97件\n"
+                    },
+                    {
+                      "text": "  - その他: 0件\n"
+                    },
+                    {
+                      "text": "  - 合計スキップ: 142件\n"
+                    },
+                    {
+                      "text": "\n検証対象外（object-fit: cover/contain/scale-down）: 6件\n"
+                    },
+                    {
+                      "text": "\n検証対象になった画像 (88件):\n"
+                    },
+                    {
+                      "text": "  1. https://turkish.jp/wp-content/themes/theme_turkish/img/logo_headline_brown.png\n"
+                    },
+                    {
+                      "text": "  2. https://turkish.jp/wp-content/themes/theme_turkish/image/logo_pmark.png\n"
+                    },
+                    {
+                      "text": "  3. https://turkish.jp/wp-content/themes/theme_turkish/img/logo_jatabond1.png\n"
+                    },
+                    {
+                      "text": "  4. https://turkish.jp/wp-content/themes/theme_turkish/img/logo_fairtrade.png\n"
+                    },
+                    {
+                      "text": "  5. https://turkish.jp/wp-content/themes/theme_turkish/image/index/top_image_pc0520.png\n"
+                    },
+                    {
+                      "text": "  6. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/lp02_pickup_img01d.png\n"
+                    },
+                    {
+                      "text": "  7. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img01.webp\n"
+                    },
+                    {
+                      "text": "  8. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img02.webp\n"
+                    },
+                    {
+                      "text": "  9. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img05.webp\n"
+                    },
+                    {
+                      "text": "  10. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img07.webp\n"
+                    },
+                    {
+                      "text": "  11. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img03.webp\n"
+                    },
+                    {
+                      "text": "  12. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img06.webp\n"
+                    },
+                    {
+                      "text": "  13. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img04.webp\n"
+                    },
+                    {
+                      "text": "  14. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank01_e.webp\n"
+                    },
+                    {
+                      "text": "  15. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank01_b.webp\n"
+                    },
+                    {
+                      "text": "  16. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank02_e.webp\n"
+                    },
+                    {
+                      "text": "  17. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank02_b.webp\n"
+                    },
+                    {
+                      "text": "  18. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank03_e.webp\n"
+                    },
+                    {
+                      "text": "  19. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank03_b.webp\n"
+                    },
+                    {
+                      "text": "  20. https://turkish.jp/wp-content/themes/theme_turkish/image/index/lp02_rank_haneda_rank04_e.jpg\n"
+                    },
+                    {
+                      "text": "  21. https://turkish.jp/wp-content/themes/theme_turkish/image/index/lp02_rank_haneda_rank04_b.jpg\n"
+                    },
+                    {
+                      "text": "  22. https://turkish.jp/wp-content/themes/theme_turkish/image/tour/wing-pc.png\n"
+                    },
+                    {
+                      "text": "  23. https://turkish.jp/wp-content/themes/theme_turkish/image/search-glass.png\n"
+                    },
+                    {
+                      "text": "  24. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item01_2.jpg\n"
+                    },
+                    {
+                      "text": "  25. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item02.jpg\n"
+                    },
+                    {
+                      "text": "  26. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item05.jpg\n"
+                    },
+                    {
+                      "text": "  27. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/sec17_img02_nokome.webp\n"
+                    },
+                    {
+                      "text": "  28. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown01.png\n"
+                    },
+                    {
+                      "text": "  29. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown02.png\n"
+                    },
+                    {
+                      "text": "  30. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown03.png\n"
+                    },
+                    {
+                      "text": "  31. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown04.png\n"
+                    },
+                    {
+                      "text": "  32. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/step_img01.webp\n"
+                    },
+                    {
+                      "text": "  33. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/step_img02.webp\n"
+                    },
+                    {
+                      "text": "  34. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/step_img03.webp\n"
+                    },
+                    {
+                      "text": "  35. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item04.jpg\n"
+                    },
+                    {
+                      "text": "  36. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item03_1.webp\n"
+                    },
+                    {
+                      "text": "  37. https://turkish.jp/wp-content/themes/theme_turkish/image/index/search-img01.png\n"
+                    },
+                    {
+                      "text": "  38. https://turkish.jp/wp-content/themes/theme_turkish/image/pamphlet_bunnerPC2.png\n"
+                    },
+                    {
+                      "text": "  39. https://turkish.jp/wp-content/themes/theme_turkish/image/index/review-img01.jpg\n"
+                    },
+                    {
+                      "text": "  40. https://turkish.jp/wp-content/themes/theme_turkish/image/index/recom-img01.jpg\n"
+                    },
+                    {
+                      "text": "  41. https://turkish.jp/wp-content/themes/theme_turkish/image/index/recom-img02.jpg\n"
+                    },
+                    {
+                      "text": "  42. https://turkish.jp/wp-content/themes/theme_turkish/image/index/recom-img03.jpg\n"
+                    },
+                    {
+                      "text": "  43. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img07.jpg\n"
+                    },
+                    {
+                      "text": "  44. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img08.jpg\n"
+                    },
+                    {
+                      "text": "  45. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img09.jpg\n"
+                    },
+                    {
+                      "text": "  46. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img06.jpg\n"
+                    },
+                    {
+                      "text": "  47. https://turkish.jp/wp-content/uploads/goreme-cappadocia.webp\n"
+                    },
+                    {
+                      "text": "  48. https://turkish.jp/wp-content/uploads/4-2.jpg\n"
+                    },
+                    {
+                      "text": "  49. https://turkish.jp/wp-content/uploads/turasan2.jpg\n"
+                    },
+                    {
+                      "text": "  50. https://turkish.jp/wp-content/uploads/zelve-open-air-museum-6691634_1280.webp\n"
+                    },
+                    {
+                      "text": "  51. https://turkish.jp/wp-content/uploads/avanos-cappadocia.webp\n"
+                    },
+                    {
+                      "text": "  52. https://turkish.jp/wp-content/uploads/zelve-museum-cappadocia.webp\n"
+                    },
+                    {
+                      "text": "  53. https://turkish.jp/wp-content/themes/theme_turkish/image/index/qa_img.jpg\n"
+                    },
+                    {
+                      "text": "  54. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img03.jpg\n"
+                    },
+                    {
+                      "text": "  55. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img06.jpg\n"
+                    },
+                    {
+                      "text": "  56. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img07.jpg\n"
+                    },
+                    {
+                      "text": "  57. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img08.jpg\n"
+                    },
+                    {
+                      "text": "  58. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img09.jpg\n"
+                    },
+                    {
+                      "text": "  59. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img10.jpg\n"
+                    },
+                    {
+                      "text": "  60. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img11.jpg\n"
+                    },
+                    {
+                      "text": "  61. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img12.jpg\n"
+                    },
+                    {
+                      "text": "  62. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img26.jpg\n"
+                    },
+                    {
+                      "text": "  63. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img25.jpg\n"
+                    },
+                    {
+                      "text": "  64. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img22.jpg\n"
+                    },
+                    {
+                      "text": "  65. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img13.jpg\n"
+                    },
+                    {
+                      "text": "  66. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img27.jpg\n"
+                    },
+                    {
+                      "text": "  67. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img21.jpg\n"
+                    },
+                    {
+                      "text": "  68. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img23.jpg\n"
+                    },
+                    {
+                      "text": "  69. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img28.jpg\n"
+                    },
+                    {
+                      "text": "  70. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img14.jpg\n"
+                    },
+                    {
+                      "text": "  71. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img16.jpg\n"
+                    },
+                    {
+                      "text": "  72. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img24.png\n"
+                    },
+                    {
+                      "text": "  73. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img20.jpg\n"
+                    },
+                    {
+                      "text": "  74. https://turkish.jp/wp-content/themes/theme_turkish/image/index/mediterranean_sea.jpg\n"
+                    },
+                    {
+                      "text": "  75. https://turkish.jp/wp-content/themes/theme_turkish/image/index/eagean_sea.jpg\n"
+                    },
+                    {
+                      "text": "  76. https://turkish.jp/wp-content/themes/theme_turkish/image/index/black_sea.jpg\n"
+                    },
+                    {
+                      "text": "  77. https://turkish.jp/wp-content/themes/theme_turkish/image/index/silkroad.jpg\n"
+                    },
+                    {
+                      "text": "  78. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/edal-banner-pc-2.png\n"
+                    },
+                    {
+                      "text": "  79. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_facebook.png\n"
+                    },
+                    {
+                      "text": "  80. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_instagram.png\n"
+                    },
+                    {
+                      "text": "  81. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_youtube.png\n"
+                    },
+                    {
+                      "text": "  82. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_line.png\n"
+                    },
+                    {
+                      "text": "  83. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_blog.png\n"
+                    },
+                    {
+                      "text": "  84. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_toruko.png\n"
+                    },
+                    {
+                      "text": "  85. https://turkish.jp/wp-content/uploads/logo_jatabond1.png\n"
+                    },
+                    {
+                      "text": "  86. https://turkish.jp/wp-content/uploads/logo_fairtrade.png\n"
+                    },
+                    {
+                      "text": "  87. https://turkish.jp/wp-content/themes/theme_turkish/image/logo_pmark_w.png\n"
+                    },
+                    {
+                      "text": "  88. https://turkish.jp/wp-content/themes/theme_turkish/image/linelogo.png\n"
+                    },
+                    {
+                      "text": "========================\n\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-26T14:02:50.611Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7e2a2744422138083899-2c2387fcd7da6014b8b0",
+          "file": "image_check/web-image-check/web-image-test.spec.ts",
+          "line": 136,
+          "column": 5
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-12-26T07:23:47.785Z",
-    "duration": 76515.306,
-    "expected": 0,
-    "skipped": 2,
-    "unexpected": 1,
+    "startTime": "2025-12-26T14:02:43.349Z",
+    "duration": 11822.575,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
     "flaky": 0
   }
 }

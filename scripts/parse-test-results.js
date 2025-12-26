@@ -114,6 +114,21 @@ const TEST_MAPPING = {
       page: 'https://turkish.jp/special-f/',
       description: '福岡発ページのサイドバーリンク（9項目）をクリックし、正しい位置にスクロールすることを確認'
     }
+  },
+  // 画像チェックテスト
+  'image_check/lp-image-check/lp-image-test.spec.ts': {
+    '画像が正しく表示されている': {
+      id: 16,
+      name: '画像が正しく表示されている',
+      page: 'https://turkish.co.jp/special/',
+      description: 'LPページの全画像が正しく読み込まれていることを確認（トラッキングピクセルや計測系画像は除外）'
+    },
+    '画像が正しい縦横比で表示されている': {
+      id: 17,
+      name: '画像が正しい縦横比で表示されている',
+      page: 'https://turkish.co.jp/special/',
+      description: 'LPページの画像が正しい縦横比で表示されていることを確認（object-fit: fillのみ検証、cover/containは対象外）'
+    }
   }
 };
 
@@ -206,7 +221,7 @@ function parseTestResults() {
   if (!fs.existsSync(resultsPath)) {
     // ファイルがない場合は空の結果を返す
     return {
-      yaml: 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 15\n',
+      yaml: 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 17\n',
       failedTests: []
     };
   }
@@ -295,7 +310,7 @@ function parseTestResults() {
   }
 
   yaml += `\ntotal_failed: ${failedTests.length}\n`;
-  yaml += `total_tests: 15\n`;
+  yaml += `total_tests: 17\n`;
 
   return { yaml, failedTests };
 }
@@ -313,7 +328,7 @@ try {
   process.exit(0);
 } catch (error) {
   // エラーが発生した場合でも空のYAMLを出力
-  const emptyYaml = 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 15\n';
+  const emptyYaml = 'failed_tests:\n  []\n\ntotal_failed: 0\ntotal_tests: 17\n';
   process.stdout.write(emptyYaml);
   process.stderr.write(`Error parsing test results: ${error.message}\n`);
   process.exit(1);
