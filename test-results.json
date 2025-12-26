@@ -68,8 +68,8 @@
   },
   "suites": [
     {
-      "title": "image_check\\lp-image-check\\lp-image-test.spec.ts",
-      "file": "image_check/lp-image-check/lp-image-test.spec.ts",
+      "title": "image_check\\web-image-check\\web-image-test.spec.ts",
+      "file": "image_check/web-image-check/web-image-test.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
@@ -89,20 +89,20 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6060,
+                  "duration": 3451,
                   "errors": [],
                   "stdout": [
                     {
                       "text": "\n=== 画像ロード検証結果 ===\n"
                     },
                     {
-                      "text": "総画像数: 347\n"
+                      "text": "総画像数: 236\n"
                     },
                     {
-                      "text": "検証対象: 117件\n"
+                      "text": "検証対象: 126件\n"
                     },
                     {
-                      "text": "✅ 正常に読み込めた: 117件\n"
+                      "text": "✅ 正常に読み込めた: 126件\n"
                     },
                     {
                       "text": "❌ 読み込み失敗: 0件\n"
@@ -114,7 +114,7 @@
                       "text": "\nスキップ詳細:\n"
                     },
                     {
-                      "text": "  - レンダリングされていない（display:none等）: 230件\n"
+                      "text": "  - レンダリングされていない（display:none等）: 109件\n"
                     },
                     {
                       "text": "  - 表示サイズ0（トラッキングピクセル等）: 0件\n"
@@ -123,7 +123,28 @@
                       "text": "  - 計測系（Google Analytics等）: 0件\n"
                     },
                     {
-                      "text": "  - 合計スキップ: 230件\n"
+                      "text": "  - srcが空: 1件\n"
+                    },
+                    {
+                      "text": "  - 合計スキップ: 110件\n"
+                    },
+                    {
+                      "text": "\nsrcが空の画像の詳細:\n"
+                    },
+                    {
+                      "text": "  [画像92]\n"
+                    },
+                    {
+                      "text": "    - インデックス: 91\n"
+                    },
+                    {
+                      "text": "    - class: yt-thumb\n"
+                    },
+                    {
+                      "text": "    - 表示サイズ: 686x385.875\n"
+                    },
+                    {
+                      "text": "\n"
                     },
                     {
                       "text": "========================\n\n"
@@ -131,7 +152,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-12-26T12:59:16.290Z",
+                  "startTime": "2025-12-26T14:02:46.314Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -139,8 +160,8 @@
               "status": "expected"
             }
           ],
-          "id": "8a25f214bc5df5ea81a1-0933668fedb6391106e5",
-          "file": "image_check/lp-image-check/lp-image-test.spec.ts",
+          "id": "7e2a2744422138083899-5e73063a6d867f30f183",
+          "file": "image_check/web-image-check/web-image-test.spec.ts",
           "line": 5,
           "column": 5
         },
@@ -160,20 +181,20 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4943,
+                  "duration": 4190,
                   "errors": [],
                   "stdout": [
                     {
                       "text": "\n=== 画像縦横比検証結果 ===\n"
                     },
                     {
-                      "text": "総画像数: 347\n"
+                      "text": "総画像数: 236\n"
                     },
                     {
-                      "text": "検証対象: 48件\n"
+                      "text": "検証対象: 88件\n"
                     },
                     {
-                      "text": "✅ 正常な縦横比: 48件\n"
+                      "text": "✅ 正常な縦横比: 88件\n"
                     },
                     {
                       "text": "❌ 縦横比エラー: 0件\n"
@@ -185,175 +206,295 @@
                       "text": "\nスキップ詳細:\n"
                     },
                     {
-                      "text": "  - ロード未完了: 0件\n"
+                      "text": "  - ロード未完了: 1件\n"
                     },
                     {
-                      "text": "  - 表示サイズ0（トラッキングピクセル等）: 142件\n"
+                      "text": "  - 表示サイズ0（トラッキングピクセル等）: 43件\n"
                     },
                     {
-                      "text": "  - 計測系（Google Analytics等）: 0件\n"
+                      "text": "  - 計測系（Google Analytics等）: 1件\n"
                     },
                     {
                       "text": "  - プレースホルダー（data:image/svg+xml）: 0件\n"
                     },
                     {
-                      "text": "  - 重複URL: 137件\n"
+                      "text": "  - 重複URL: 97件\n"
                     },
                     {
                       "text": "  - その他: 0件\n"
                     },
                     {
-                      "text": "  - 合計スキップ: 279件\n"
+                      "text": "  - 合計スキップ: 142件\n"
                     },
                     {
-                      "text": "\n検証対象外（object-fit: cover/contain/scale-down）: 20件\n"
+                      "text": "\n検証対象外（object-fit: cover/contain/scale-down）: 6件\n"
                     },
                     {
-                      "text": "\n検証対象になった画像 (48件):\n"
+                      "text": "\n検証対象になった画像 (88件):\n"
                     },
                     {
-                      "text": "  1. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/logo6.png\n"
+                      "text": "  1. https://turkish.jp/wp-content/themes/theme_turkish/img/logo_headline_brown.png\n"
                     },
                     {
-                      "text": "  2. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/h-icon6.png\n"
+                      "text": "  2. https://turkish.jp/wp-content/themes/theme_turkish/image/logo_pmark.png\n"
                     },
                     {
-                      "text": "  3. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/h-icon5.png\n"
+                      "text": "  3. https://turkish.jp/wp-content/themes/theme_turkish/img/logo_jatabond1.png\n"
                     },
                     {
-                      "text": "  4. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/h-icon1.png\n"
+                      "text": "  4. https://turkish.jp/wp-content/themes/theme_turkish/img/logo_fairtrade.png\n"
                     },
                     {
-                      "text": "  5. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/fv/cnt1-1.webp\n"
+                      "text": "  5. https://turkish.jp/wp-content/themes/theme_turkish/image/index/top_image_pc0520.png\n"
                     },
                     {
-                      "text": "  6. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/fv/a-tabs1.webp\n"
+                      "text": "  6. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/lp02_pickup_img01d.png\n"
                     },
                     {
-                      "text": "  7. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/hiromi.webp\n"
+                      "text": "  7. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img01.webp\n"
                     },
                     {
-                      "text": "  8. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/credit.png\n"
+                      "text": "  8. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img02.webp\n"
                     },
                     {
-                      "text": "  9. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/manzoku1.webp\n"
+                      "text": "  9. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img05.webp\n"
                     },
                     {
-                      "text": "  10. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section6/sec03_img02%202.webp\n"
+                      "text": "  10. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img07.webp\n"
                     },
                     {
-                      "text": "  11. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section6/sec03_img03%202.webp\n"
+                      "text": "  11. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img03.webp\n"
                     },
                     {
-                      "text": "  12. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section6/sec03_img04%201.webp\n"
+                      "text": "  12. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img06.webp\n"
                     },
                     {
-                      "text": "  13. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section7/img1.webp\n"
+                      "text": "  13. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_picup_img04.webp\n"
                     },
                     {
-                      "text": "  14. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/hiromi5.webp\n"
+                      "text": "  14. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank01_e.webp\n"
                     },
                     {
-                      "text": "  15. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section7/thumbnail.webp\n"
+                      "text": "  15. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank01_b.webp\n"
                     },
                     {
-                      "text": "  16. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/air.png\n"
+                      "text": "  16. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank02_e.webp\n"
                     },
                     {
-                      "text": "  17. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/logo5.png\n"
+                      "text": "  17. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank02_b.webp\n"
                     },
                     {
-                      "text": "  18. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/icon1.png\n"
+                      "text": "  18. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank03_e.webp\n"
                     },
                     {
-                      "text": "  19. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/img1.webp\n"
+                      "text": "  19. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/lp02_rank_haneda_rank03_b.webp\n"
                     },
                     {
-                      "text": "  20. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/hiromi6.webp\n"
+                      "text": "  20. https://turkish.jp/wp-content/themes/theme_turkish/image/index/lp02_rank_haneda_rank04_e.jpg\n"
                     },
                     {
-                      "text": "  21. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/img3-pc.webp\n"
+                      "text": "  21. https://turkish.jp/wp-content/themes/theme_turkish/image/index/lp02_rank_haneda_rank04_b.jpg\n"
                     },
                     {
-                      "text": "  22. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/icon2.png\n"
+                      "text": "  22. https://turkish.jp/wp-content/themes/theme_turkish/image/tour/wing-pc.png\n"
                     },
                     {
-                      "text": "  23. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/img4.webp\n"
+                      "text": "  23. https://turkish.jp/wp-content/themes/theme_turkish/image/search-glass.png\n"
                     },
                     {
-                      "text": "  24. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/icon3.png\n"
+                      "text": "  24. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item01_2.jpg\n"
                     },
                     {
-                      "text": "  25. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section9/img5.webp\n"
+                      "text": "  25. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item02.jpg\n"
                     },
                     {
-                      "text": "  26. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/asirai.png\n"
+                      "text": "  26. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item05.jpg\n"
                     },
                     {
-                      "text": "  27. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section10/img2.webp\n"
+                      "text": "  27. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/sec17_img02_nokome.webp\n"
                     },
                     {
-                      "text": "  28. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section11/2.webp\n"
+                      "text": "  28. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown01.png\n"
                     },
                     {
-                      "text": "  29. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/deco11.png\n"
+                      "text": "  29. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown02.png\n"
                     },
                     {
-                      "text": "  30. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section11/3.webp\n"
+                      "text": "  30. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown03.png\n"
                     },
                     {
-                      "text": "  31. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/hiromi7.webp\n"
+                      "text": "  31. https://turkish.jp/wp-content/themes/theme_turkish/image/index/ranking-crown04.png\n"
                     },
                     {
-                      "text": "  32. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section12/img2-pc.png\n"
+                      "text": "  32. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/step_img01.webp\n"
                     },
                     {
-                      "text": "  33. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section12/img1.webp\n"
+                      "text": "  33. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/step_img02.webp\n"
                     },
                     {
-                      "text": "  34. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section10/img5-sp.webp\n"
+                      "text": "  34. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/step_img03.webp\n"
                     },
                     {
-                      "text": "  35. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section13/img3.webp\n"
+                      "text": "  35. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item04.jpg\n"
                     },
                     {
-                      "text": "  36. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section13/img4.webp\n"
+                      "text": "  36. https://turkish.jp/wp-content/themes/theme_turkish/image/index/bargain_item03_1.webp\n"
                     },
                     {
-                      "text": "  37. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section13/img5.webp\n"
+                      "text": "  37. https://turkish.jp/wp-content/themes/theme_turkish/image/index/search-img01.png\n"
                     },
                     {
-                      "text": "  38. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section13/img6.webp\n"
+                      "text": "  38. https://turkish.jp/wp-content/themes/theme_turkish/image/pamphlet_bunnerPC2.png\n"
                     },
                     {
-                      "text": "  39. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/section13/img7.webp\n"
+                      "text": "  39. https://turkish.jp/wp-content/themes/theme_turkish/image/index/review-img01.jpg\n"
                     },
                     {
-                      "text": "  40. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/hiromi3.webp\n"
+                      "text": "  40. https://turkish.jp/wp-content/themes/theme_turkish/image/index/recom-img01.jpg\n"
                     },
                     {
-                      "text": "  41. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/manzoku2.webp\n"
+                      "text": "  41. https://turkish.jp/wp-content/themes/theme_turkish/image/index/recom-img02.jpg\n"
                     },
                     {
-                      "text": "  42. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/snsicon_facebook.png\n"
+                      "text": "  42. https://turkish.jp/wp-content/themes/theme_turkish/image/index/recom-img03.jpg\n"
                     },
                     {
-                      "text": "  43. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/snsicon_instagram.png\n"
+                      "text": "  43. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img07.jpg\n"
                     },
                     {
-                      "text": "  44. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/snsicon_youtube.png\n"
+                      "text": "  44. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img08.jpg\n"
                     },
                     {
-                      "text": "  45. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/snsicon_line.png\n"
+                      "text": "  45. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img09.jpg\n"
                     },
                     {
-                      "text": "  46. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/snsicon_blog.png\n"
+                      "text": "  46. https://turkish.jp/wp-content/themes/theme_turkish/image/index/line-img06.jpg\n"
                     },
                     {
-                      "text": "  47. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/snsicon_toruko.png\n"
+                      "text": "  47. https://turkish.jp/wp-content/uploads/goreme-cappadocia.webp\n"
                     },
                     {
-                      "text": "  48. https://turkish.co.jp/wp/wp-content/themes/turkish_special/img/h-icon2.webp\n"
+                      "text": "  48. https://turkish.jp/wp-content/uploads/4-2.jpg\n"
+                    },
+                    {
+                      "text": "  49. https://turkish.jp/wp-content/uploads/turasan2.jpg\n"
+                    },
+                    {
+                      "text": "  50. https://turkish.jp/wp-content/uploads/zelve-open-air-museum-6691634_1280.webp\n"
+                    },
+                    {
+                      "text": "  51. https://turkish.jp/wp-content/uploads/avanos-cappadocia.webp\n"
+                    },
+                    {
+                      "text": "  52. https://turkish.jp/wp-content/uploads/zelve-museum-cappadocia.webp\n"
+                    },
+                    {
+                      "text": "  53. https://turkish.jp/wp-content/themes/theme_turkish/image/index/qa_img.jpg\n"
+                    },
+                    {
+                      "text": "  54. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img03.jpg\n"
+                    },
+                    {
+                      "text": "  55. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img06.jpg\n"
+                    },
+                    {
+                      "text": "  56. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img07.jpg\n"
+                    },
+                    {
+                      "text": "  57. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img08.jpg\n"
+                    },
+                    {
+                      "text": "  58. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img09.jpg\n"
+                    },
+                    {
+                      "text": "  59. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img10.jpg\n"
+                    },
+                    {
+                      "text": "  60. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img11.jpg\n"
+                    },
+                    {
+                      "text": "  61. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img12.jpg\n"
+                    },
+                    {
+                      "text": "  62. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img26.jpg\n"
+                    },
+                    {
+                      "text": "  63. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img25.jpg\n"
+                    },
+                    {
+                      "text": "  64. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img22.jpg\n"
+                    },
+                    {
+                      "text": "  65. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img13.jpg\n"
+                    },
+                    {
+                      "text": "  66. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img27.jpg\n"
+                    },
+                    {
+                      "text": "  67. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img21.jpg\n"
+                    },
+                    {
+                      "text": "  68. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img23.jpg\n"
+                    },
+                    {
+                      "text": "  69. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img28.jpg\n"
+                    },
+                    {
+                      "text": "  70. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img14.jpg\n"
+                    },
+                    {
+                      "text": "  71. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img16.jpg\n"
+                    },
+                    {
+                      "text": "  72. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img24.png\n"
+                    },
+                    {
+                      "text": "  73. https://turkish.jp/wp-content/themes/theme_turkish/image/index/archive-img20.jpg\n"
+                    },
+                    {
+                      "text": "  74. https://turkish.jp/wp-content/themes/theme_turkish/image/index/mediterranean_sea.jpg\n"
+                    },
+                    {
+                      "text": "  75. https://turkish.jp/wp-content/themes/theme_turkish/image/index/eagean_sea.jpg\n"
+                    },
+                    {
+                      "text": "  76. https://turkish.jp/wp-content/themes/theme_turkish/image/index/black_sea.jpg\n"
+                    },
+                    {
+                      "text": "  77. https://turkish.jp/wp-content/themes/theme_turkish/image/index/silkroad.jpg\n"
+                    },
+                    {
+                      "text": "  78. https://turkish.jp/wp-content/themes/theme_turkish/image/lp/webp/edal-banner-pc-2.png\n"
+                    },
+                    {
+                      "text": "  79. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_facebook.png\n"
+                    },
+                    {
+                      "text": "  80. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_instagram.png\n"
+                    },
+                    {
+                      "text": "  81. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_youtube.png\n"
+                    },
+                    {
+                      "text": "  82. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_line.png\n"
+                    },
+                    {
+                      "text": "  83. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_blog.png\n"
+                    },
+                    {
+                      "text": "  84. https://turkish.jp/wp-content/themes/theme_turkish/image/snsicon_toruko.png\n"
+                    },
+                    {
+                      "text": "  85. https://turkish.jp/wp-content/uploads/logo_jatabond1.png\n"
+                    },
+                    {
+                      "text": "  86. https://turkish.jp/wp-content/uploads/logo_fairtrade.png\n"
+                    },
+                    {
+                      "text": "  87. https://turkish.jp/wp-content/themes/theme_turkish/image/logo_pmark_w.png\n"
+                    },
+                    {
+                      "text": "  88. https://turkish.jp/wp-content/themes/theme_turkish/image/linelogo.png\n"
                     },
                     {
                       "text": "========================\n\n"
@@ -361,7 +502,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-12-26T12:59:23.301Z",
+                  "startTime": "2025-12-26T14:02:50.611Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -369,9 +510,9 @@
               "status": "expected"
             }
           ],
-          "id": "8a25f214bc5df5ea81a1-5bc0e5b62032db5f03ac",
-          "file": "image_check/lp-image-check/lp-image-test.spec.ts",
-          "line": 87,
+          "id": "7e2a2744422138083899-2c2387fcd7da6014b8b0",
+          "file": "image_check/web-image-check/web-image-test.spec.ts",
+          "line": 136,
           "column": 5
         }
       ]
@@ -379,8 +520,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-12-26T12:59:13.519Z",
-    "duration": 15373.619,
+    "startTime": "2025-12-26T14:02:43.349Z",
+    "duration": 11822.575,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,

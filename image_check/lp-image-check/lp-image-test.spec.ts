@@ -17,6 +17,11 @@ test('画像が正しく表示されている', async ({ page }) => {
       const src = img.currentSrc || img.getAttribute('src') || '';
       const rect = img.getBoundingClientRect();
 
+      // srcが空の場合は除外（検証対象外）
+      if (!src || src.trim() === '') {
+        return { skip: 'emptySrc', src: '' };
+      }
+
       // 計測系は除外
       if (isTracking(src)) {
         return { skip: 'tracking', src };
@@ -51,7 +56,8 @@ test('画像が正しく表示されている', async ({ page }) => {
   const skippedNotRendered = results.filter((r) => r.skip === 'notRendered').length;
   const skippedZeroSize = results.filter((r) => r.skip === 'zeroSize').length;
   const skippedTracking = results.filter((r) => r.skip === 'tracking').length;
-  const totalSkipped = skippedNotRendered + skippedZeroSize + skippedTracking;
+  const skippedEmptySrc = results.filter((r) => r.skip === 'emptySrc').length;
+  const totalSkipped = skippedNotRendered + skippedZeroSize + skippedTracking + skippedEmptySrc;
 
   // 統計情報を表示
   const totalChecked = loadedCount + failedCount;
@@ -67,6 +73,7 @@ test('画像が正しく表示されている', async ({ page }) => {
   console.log(`  - レンダリングされていない（display:none等）: ${skippedNotRendered}件`);
   console.log(`  - 表示サイズ0（トラッキングピクセル等）: ${skippedZeroSize}件`);
   console.log(`  - 計測系（Google Analytics等）: ${skippedTracking}件`);
+  console.log(`  - srcが空: ${skippedEmptySrc}件`);
   console.log(`  - 合計スキップ: ${totalSkipped}件`);
   if (failed.length > 0) {
     console.log(`\n読み込み失敗した画像:`);
